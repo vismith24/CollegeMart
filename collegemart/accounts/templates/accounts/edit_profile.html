@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    {% block content %}
+      <h2>Profile Update Form</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+          {% for field in p_form %}
+          <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            {% if field.help_text %}
+              <small style="display: inline">{{ field.help_text }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <p style="color: red">{{ error }}</p>
+            {% endfor %}
+          </p>
+          {% endfor %}
+        <input type="submit" value="Update">
+      </form>
+      <script>
+        $( function() {
+          $( "#id_dob" ).datepicker({
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "1990:2017",
+          })
+        } );
+    </script>
+    {% endblock %}
+  </body>
+</html>

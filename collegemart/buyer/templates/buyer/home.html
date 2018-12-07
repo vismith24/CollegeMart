@@ -1,0 +1,74 @@
+{% extends "buyer/base.html" %}
+{% load static %}
+{% block content %}
+
+    <div class="site-blocks-cover" style="background-image: url({% static 'buyer/images/homepage.jpg' %});" data-aos="fade">
+      <div class="container">
+        <div class="row align-items-start align-items-md-center justify-content-end">
+          <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
+            <h1 class="mb-2">Find what you want explore</h1>
+            <div class="intro-text text-center text-md-left">
+
+                <a href="{% url 'buyer:shop' %}" class="btn btn-sm btn-primary">Shop Now</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section block-3 site-blocks-2 bg-light">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-7 site-section-heading text-center pt-4">
+            <h2>Featured Products</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="nonloop-block-3 owl-carousel">
+              {% for c in category %}
+              <div class="item">
+                <div class="block-4 text-center">
+                  <figure class="block-4-image">
+                    <img src="{% static 'buyer/images/book.jpg' %}" alt="Image placeholder" class="img-fluid">
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <h3><a href="{% url 'buyer:shop-category' categories.pk %}">{{categories.category}}</a></h3>
+                  </div>
+                </div>
+              </div>
+
+              {% endfor %}
+              <div class="item">
+       
+       
+                <div class="block-4 text-center">
+                  <figure class="block-4-image">
+                    <img src="{% static 'buyer/images/hostel.jpg' %}" alt="Image placeholder" class="img-fluid">
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <h3><a href="#">Hostel Material</a></h3>
+                    <p class="mb-0">get hostel necessities here</p>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="block-4 text-center">
+                  <figure class="block-4-image">
+                    <img src="{% static 'buyer/images/lab.jpg' %}" alt="Image placeholder" class="img-fluid">
+                  </figure>
+                  <div class="block-4-text p-4">
+                    <h3><a href="#">Lab Material</a></h3>
+                    <p class="mb-0">Get Your Lab Material here.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}

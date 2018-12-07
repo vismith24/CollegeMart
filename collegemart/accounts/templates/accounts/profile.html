@@ -1,0 +1,17 @@
+{% extends 'accounts/base.html' %}
+
+{% block body %}
+      <div class="container">
+      <h1>Profile</h1>
+            <p>Username: {{ user }}</p>
+            <p>First Name: {{ user.profile.fname }}</p>
+            <p>Last Name: {{ user.profile.lname }}</p>
+            <p>Email: {{ user.email }} </p>
+            <p>Phone Number:{{ user.profile.phone }} </p>
+            <p>Picture:<br><img src="{{ user.profile.photo.url }}" width="240px" height="240px"/> </p>
+
+
+            <a href="{% url 'edit_profile' %}">Edit Profile</a><br>
+            <a href="{% url 'change_password' %}">Change your password here !</a>
+      </div>
+{% endblock %}
