@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'crispy_forms',
     'accounts',
+    'paytm',
     'seller',
     'cart',
     'buyer',
@@ -144,3 +145,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ALLOWED_HOSTS = ['*']
 
 CART_SESSION_ID = 'cart'
+
+PAYTM_MERCHANT_KEY = ""
+PAYTM_MERCHANT_ID = ""
+HOST_URL = "http://localhost:8000"
+PAYTM_CALLBACK_URL = "payment/response/"
+
+if DEBUG:
+    PAYTM_MERCHANT_ID = "xNaORM51969003078152"
+    PAYTM_MERCHANT_KEY = "T1GsewDpWX%z3BdZ"
+    PAYTM_WEBSITE = 'WEBSTAGING'
+    HOST_URL = 'http://localhost:8000'

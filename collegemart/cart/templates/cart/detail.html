@@ -13,8 +13,8 @@
                 {% with total_items=cart|length %}
                     {% if cart|length > 0 %}
                         My Shopping Order:
-                        <a href="{% url "cart:cart_detail" %}" style="color: #ffffff">
-                            {{ total_items }} item {{ total_items|pluralize }}, Kshs. {{ cart.get_total_price }}
+                        <a href="{% url "cart:cart_detail" %}" style="color: #00000">
+                            {{ total_items }} item {{ total_items|pluralize }}, ₹{{ cart.get_total_price }}
                         </a>
                         {% else %}
                         Your cart is empty.
@@ -68,7 +68,7 @@
             </table>
         <p class="text-right">
             <a href="{% url "buyer:shop" %}" class="btn btn-default">Continue Shopping</a>
-            <a href="" class="btn btn-primary">Checkout</a>
+            <a href="{% url 'buyer:checkout' %}" class="btn btn-primary">Checkout</a>
         </p>
         </div>
     </div>

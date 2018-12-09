@@ -1,96 +1,162 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>COLLEGE MART</title>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
-    <link rel="stylesheet" href="{% static 'buyer/fonts/icomoon/style.css' %}">
-    <link rel="stylesheet" href="{% static 'buyer/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'buyer/css/magnific-popup.css' %}">
-    <link rel="stylesheet" href="{% static 'buyer/css/jquery-ui.css' %}">
-    <link rel="stylesheet" href="{% static 'buyer/css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'buyer/css/owl.theme.default.min.css' %}">
-    <link rel="stylesheet" href="{% static 'buyer/css/aos.css' %}">
-    <link rel="stylesheet" href="{% static 'buyer/css/style.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'buyer/main.css' %}">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title  -->
+    <!-- Favicon  --><!-- Favicon  -->
+    <link rel="icon" href="{% static 'img/core-img/favicon.ico' %}">
+
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="{% static 'css/core-style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
 </head>
+
 <body>
-<div class="site-wrap">
-    <header class="site-navbar" role="banner">
-      <div class="site-navbar-top" style="background-color:green;">
+    <!-- Search Wrapper Area Start -->
+    <div class="search-wrapper section-padding-100">
+        <div class="search-close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </div>
         <div class="container">
-          <div class="row align-items-center">
-
-            <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-              <form action="" class="site-block-top-search">
-                <span class="icon icon-search2"></span>
-                <input type="text" class="form-control border-0" placeholder="Search">
-              </form>
+            <div class="row">
+                <div class="col-12">
+                    <div class="search-content">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button type="submit"><img src="img/core-img/search.png" alt=""></button>
+                        </form>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+    <!-- Search Wrapper Area End -->
 
-            <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+    <!-- ##### Main Content Wrapper Start ##### -->
+    <div class="main-content-wrapper d-flex clearfix">
 
-                <h1>College Mart</h1>
-
+        <!-- Mobile Nav (max width 767px)-->
+        <div class="mobile-nav">
+            <!-- Navbar Brand -->
+            <div class="amado-navbar-brand">
+                <a href="{% url 'buyer:home' %}"><img src="img/core-img/logo.png" alt=""></a>
             </div>
+            <!-- Navbar Toggler -->
+            <div class="amado-navbar-toggler">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
 
-            <div class="col-6 col-md-4 order-3 order-md-3 text-right">
-              <div class="site-top-icons">
+        <!-- Header Area Start -->
+        <header class="header-area clearfix">
+            <!-- Close Icon -->
+            <div class="nav-close">
+                <i class="fa fa-close" aria-hidden="true"></i>
+            </div>
+            <!-- Logo -->
+            <div class="logo">
+                <a href="{% url 'buyer:home' %}"><img src="img/core-img/logo.png" alt=""></a>
+            </div>
+            <!-- Amado Nav -->
+            <nav class="amado-nav">
                 <ul>
-                  <li><a href="{% url 'view_profile' %}"><span class="icon icon-person"></span></a></li>
-                  <li>
-                    <a href="{% url 'cart:cart_detail' %}" class="site-cart">
-                      <span class="icon icon-shopping_cart"></span>
-                      <span class="count">0</span>
-                    </a>
-                  </li>
-                  <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li><a href="{% url 'buyer:shop' %}">Shop</a></li>
+                    <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
+                    <li><a href="{% url 'buyer:checkout' %}">Checkout</a></li>
                 </ul>
-              </div>
+            </nav>
+            <!-- Button Group -->
+            <div class="amado-btn-group mt-30 mb-100">
+                <a href="#" class="btn amado-btn mb-15">%Discount%</a>
+                <a href="#" class="btn amado-btn active">New this week</a>
             </div>
+            <!-- Cart Menu -->
+            <div class="cart-fav-search mb-100">
+                <a href="{% url 'cart:cart_detail' %}" class="cart-nav"><img src="img/core-img/cart.png" alt=""> Cart <span>(0)</span></a>
+                <a href="#" class="fav-nav"><img src="img/core-img/favorites.png" alt=""> Favourite</a>
+                <a href="#" class="search-nav"><img src="img/core-img/search.png" alt=""> Search</a>
+            </div>
+            <!-- Social Button -->
+            <div class="social-info d-flex justify-content-between">
+                <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            </div>
+        </header>
+        <!-- Header Area End -->
+        {% block content %} {% endblock %}
 
-          </div>
-        </div>
-      </div>
-      <nav class="site-navigation text-right text-md-center" role="navigation">
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer_area clearfix">
         <div class="container">
-          <ul class="site-menu js-clone-nav d-none d-md-block">
-            <li><a href="{% url 'buyer:home' %}">Home</a></li>
-            <li><a href="{% url 'buyer:about' %}">About</a></li>
-            <li><a href="{% url 'buyer:shop' %}">Shop</a></li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-    <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-          <a class="navbar-brand mr-4" href="{% url 'buyer:home' %}">COLLEGE MART</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{% url 'buyer:home' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'buyer:about' %}">About</a>
+            <div class="row align-items-center">
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-4">
+                    <div class="single_widget_area">
+                        <!-- Logo -->
+                        <div class="footer-logo mr-50">
+                            <a href="{% url 'buyer:home' %}"><img src="img/core-img/logo2.png" alt=""></a>
+                        </div>
+                        <!-- Copywrite Text -->
+                        <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-8">
+                    <div class="single_widget_area">
+                        <!-- Footer Menu -->
+                        <div class="footer_menu">
+                            <nav class="navbar navbar-expand-lg justify-content-end">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#footerNavContent" aria-controls="footerNavContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+                                <div class="collapse navbar-collapse" id="footerNavContent">
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="{% url 'buyer:home' %}">Home</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'buyer:shop' %}">Shop</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'cart:cart_detail' %}">Cart</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'buyer:checkout' %}">Checkout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="navbar-nav">
-            </div>
-          </div>
         </div>
-      </nav>
-    </header>
-    {% block content %}{% endblock %}
-  <script src="{% static 'buyer/js/jquery-3.3.1.min.js' %}"></script>
-  <script src="{% static 'buyer/js/jquery-ui.js' %}"></script>
-  <script src="{% static 'buyer/js/popper.min.js' %}"></script>
-  <script src="{% static 'buyer/js/bootstrap.min.js' %}"></script>
-  <script src="{% static 'buyer/js/owl.carousel.min.js' %}"></script>
-  <script src="{% static 'buyer/js/jquery.magnific-popup.min.js' %}"></script>
-  <script src="{% static 'buyer/js/aos.js' %}"></script>
-  <script src="{% static 'buyer/js/main.js' %}"></script>
+    </footer>
+    <!-- ##### Footer Area End ##### -->
+
+      <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
+    <script src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
+    <!-- Popper js -->
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <!-- Bootstrap js -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- Plugins js -->
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <!-- Active js -->
+    <script src="{% static 'js/active.js' %}"></script>
+
 </body>
+
 </html>

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.conf import settings
 from cart.forms import CartAddProductForm
+from cart.cart import Cart
 
 '''
 def index(request):
@@ -39,12 +40,16 @@ def shop_item(request, pid):
     return render(request, 'buyer/shop-item.html', context)
 
 def home(request):
-    products = Products_Selling.objects.all()
+    products = Products_Selling.objects.all()[0:6]
     categories = Category.objects.all()
     context = {'products': products, 'categories': categories}
-    return render(request, 'buyer/home.html', context)
+    return render(request, 'buyer/index.html', context)
 
 
 def about(request):
     return render(request, 'buyer/about.html', {'title': 'About'})
+
+def checkout(request):
+    cart = Cart(request)
+    return render(request, 'buyer/checkout.html', {'cart': cart})
 

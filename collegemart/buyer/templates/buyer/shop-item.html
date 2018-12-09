@@ -1,141 +1,114 @@
-{% extends "buyer/base.html" %}
+{% extends 'buyer/base.html' %}
 {% load crispy_forms_tags %}
-
+{% load static %}
 {% block content %}
+        <!-- Product Details Area Start -->
+        <div class="single-product-area section-padding-100 clearfix">
+            <div class="container-fluid">
 
-    <div class="bg-light py-3">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{products.pname}}</strong></div>
-              <div class="d-flex">
-                <div class="btn-group">
-                  <a href="" class="btn btn-secondary btn-sm" >ADD ITEMS</a>
+                <div class="row">
+                    <div class="col-12">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mt-50">
+                                <li class="breadcrumb-item"><a href="{% url 'buyer:home' %}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'buyer:shop-category' product.category.pk %}">{{ product.category.name }}</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ product.pname }}</li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
-              </div>        
-        </div>
-      </div>
-    </div>  
-    <form action="{% url 'cart:cart_add' product.pk %}" method="post">
-    {% csrf_token %}
-    <div class="site-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <img src="{{ product.image.url }}" alt="Image" class="img-fluid">
-          </div>
-          <div class="col-md-6">
-            <center><h2 class="text-black">{{product.pname}}</h2></center>
-            <h4 class="text-purple">{{product.Category}}</h4>
-            <p>{{product.description}}</p>
-            <p class="mb-4">Ex numquam veritatis debitis minima quo error quam eos dolorum quidem perferendis. Quos repellat dignissimos minus, eveniet nam voluptatibus molestias omnis reiciendis perspiciatis illum hic magni iste, velit aperiam quis.</p>
-            <p><strong class="text-primary h4">₹{{product.price}}</strong></p>
-            <!--<div class="mb-1 d-flex">
-              <label for="option-sm" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
-              </label>
-              <label for="option-md" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md" name="shop-sizes"></span> <span class="d-inline-block text-black">Medium</span>
-              </label>
-              <label for="option-lg" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg" name="shop-sizes"></span> <span class="d-inline-block text-black">Large</span>
-              </label>
-              <label for="option-xl" class="d-flex mr-3 mb-3">
-                <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> Extra Large</span>
-              </label>
-            </div>
-            <div class="mb-5">
-              <div class="input-group mb-3" style="max-width: 120px;">
-              <div class="input-group-prepend">
-                <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-              </div>
-              <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-              <div class="input-group-append">
-                <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-              </div>-->
-              {{ cart_product_form|crispy }}
-              <p><button type="submit" class="buy-now btn btn-sm btn-primary">Add To Cart</p>
-            </div>
 
+                <div class="row">
+                    <div class="col-12 col-lg-7">
+                        <div class="single_product_thumb">
+                            <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(img/product-img/pro-big-1.jpg);">
+                                    </li>
+                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(img/product-img/pro-big-2.jpg);">
+                                    </li>
+                                    <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(img/product-img/pro-big-3.jpg);">
+                                    </li>
+                                    <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(img/product-img/pro-big-4.jpg);">
+                                    </li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <a class="gallery_img" href="{% static 'img/product-img/pro-big-1.jpg' %}">
+                                            <img class="d-block w-100" src="{{ product.image.url }}" alt="First slide">
+                                        </a>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <a class="gallery_img" href="{% static 'img/product-img/pro-big-2.jpg' %}">
+                                            <img class="d-block w-100" src="{% static 'img/product-img/pro-big-2.jpg' %}" alt="Second slide">
+                                        </a>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <a class="gallery_img" href="{% static 'img/product-img/pro-big-3.jpg' %}">
+                                            <img class="d-block w-100" src="{% static 'img/product-img/pro-big-3.jpg' %}" alt="Third slide">
+                                        </a>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <a class="gallery_img" href="{% static 'img/product-img/pro-big-4.jpg' %}">
+                                            <img class="d-block w-100" src="{% static 'img/product-img/pro-big-1.jpg' %}" alt="Fourth slide">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5">
+                        <div class="single_product_desc">
+                            <!-- Product Meta Data -->
+                            <div class="product-meta-data">
+                                <div class="line"></div>
+                                <p class="product-price">₹{{ product.price }}</p>
+                                <a href="product-details.html">
+                                    <h6>{{ product.pname }}</h6>
+                                </a>
+                                <!-- Ratings & Review -->
+                                <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="review">
+                                        <a href="#">Write A Review</a>
+                                    </div>
+                                </div>
+                                <!-- Avaiable -->
+                                <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
+                            </div>
+
+                            <div class="short_overview my-5">
+                                <p>{{ product.description }}</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?</p>
+                            </div>
+
+                            <!-- Add to Cart Form -->
+                            <form action="{% url 'cart:cart_add' product.pk %}" class="cart clearfix" method="post">
+                                {% csrf_token %}
+                                <div class="cart-btn d-flex mb-50">
+                                    <p>Qty</p>
+                                    <div class="quantity">
+                                        <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                                        <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
+                                        <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
+                                    </div>
+                                    {{ cart_product_form|crispy }}
+                                </div>
+                                <button type="submit" name="addtocart" value="5" class="btn amado-btn">Add to cart</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </form>
+        <!-- Product Details Area End -->
     </div>
-
-    <div class="site-section block-3 site-blocks-2 bg-light">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-7 site-section-heading text-center pt-4">
-            <h2>Featured Products</h2>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="nonloop-block-3 owl-carousel">
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Tank Top</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_2.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Polo Shirt</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_3.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">T-Shirt Mockup</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-{% endblock content %}
+    <!-- ##### Main Content Wrapper End ##### -->
+{% endblock %}

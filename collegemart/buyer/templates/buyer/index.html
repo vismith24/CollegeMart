@@ -1,0 +1,28 @@
+{% extends 'buyer/base.html' %}
+{% load static %}
+<head>
+    <title>CollegeMart | Home</title>
+</head>
+{% block content %}
+        <!-- Product Catagories Area Start -->
+        <div class="products-catagories-area clearfix">
+            <div class="amado-pro-catagory clearfix">
+
+                <!-- Single Catagory -->
+                {% for product in products %}
+                <div class="single-products-catagory clearfix">
+                    <a href="{% url 'buyer:shop' %}">
+                        <img src="{{ product.image.url }}" alt="" style="width:'100px', height:'100px'">
+                        <!-- Hover Content -->
+                        <div class="hover-content">
+                            <div class="line"></div>
+                            <p>₹{{ product.price }}</p>
+                            <h4>{{ product.pname}}</h4>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    <!-- ##### Main Content Wrapper End ##### -->
+{% endblock %}
