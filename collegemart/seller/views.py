@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect, render_to_response
 from django.template import RequestContext
 from . models import Products_Selling, Products_Leasing
 from accounts.models import Profile
-from . forms import saleform, leaseform
+from . forms import saleform, leaseform, requestform
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
@@ -46,7 +46,7 @@ def productsale(request):
             if len(inst)!=0:
                 return render(request, 'seller/search.html', {'inst': inst})
             else:
-                return redirect('request')
+                return redirect('seller:request')
         else:
             form3 = saleform()
             form5 = leaseform()
@@ -91,7 +91,6 @@ def deletion(request,pid,n):
     return redirect('tosell')
 
 def Request(request):
-    '''
     if request.method == 'POST':
         form7 = requestform(request.POST)
         if form7.is_valid():
@@ -105,6 +104,5 @@ def Request(request):
             form7=requestform()
             return render(request, 'seller/request.html', {'form7':form7})
     else:
-    '''
-    form7 = requestform()
-    return render(request, 'seller/request.html', {'form7': form7})
+        form7 = requestform()
+        return render(request, 'seller/request.html', {'form7': form7})

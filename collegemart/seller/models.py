@@ -57,3 +57,13 @@ class Products_Leasing(models.Model):
     
     def __str__(self):
         return self.pname1
+
+class Request_table(models.Model):
+    pname2 = models.CharField(max_length=100, blank=False, null=False)
+    description2 = models.TextField(blank=False, null=False)
+    person = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)
+    def __str__(self):
+        return self.pname2
+
+    def __repr__(self):
+        return self.pname2

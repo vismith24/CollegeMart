@@ -1,0 +1,44 @@
+{% extends 'buyer/base.html' %}
+{% load static %}
+{% block title %}
+    Checkout Page
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row" style="margin-top: 6%">
+        <h2>Checkout Page<br>
+            <span class="badge pull-right">
+                {% with total_items=cart|length %}
+                    {% if cart|length > 0 %}
+                        Your Shopping Order:
+                        <a href="{% url "cart:cart_detail" %}" style="color: #00000">
+                            {{ total_items }} item {{ total_items|pluralize }}, ₹{{ cart.get_total_price }}
+                        </a>
+                        {% else %}
+                        Your cart is empty.
+                    {% endif %}
+                {% endwith %}
+            </span>
+        </h2>
+        </div>
+        <h4> Select a payment method</h4>
+        <br>
+        <div class="form-group">
+        <form action="{% url 'paytm:payment' %}" method="POST">
+            {% csrf_token %}
+            <div class="checkbox">
+            <label><input type="checkbox" name="payment" value="PAYTM">Paytm</label>
+            </div>
+            <br>
+            <p><button type="submit" class="pay btn btn-success">Pay Now</p> 
+        </form>
+        </div>
+        <div class="row">
+        <p class="text-right">
+            <a href="{% url "buyer:shop" %}" class="btn btn-default">Continue Shopping</a>
+        </p>
+        </div>
+    </div>
+{% endblock %}
