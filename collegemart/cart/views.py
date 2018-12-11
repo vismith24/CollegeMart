@@ -1,25 +1,36 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from seller.models import Products_Selling as Product
+from seller.models import Products_Leasing as Product2
 from .cart import Cart
 from .forms import CartAddProductForm
 
 
 @require_POST
-def cart_add(request, product_id):
-    cart = Cart(request)  # create a new cart object passing it the request object 
-    product = get_object_or_404(Product, id=product_id) 
+def cart_add(request, product_id, rec):
+    cart = Cart(request)  # create a new cart object passing it the request object
+    rec = int(rec)
+    if rec == 0:
+        print('a')
+        product = get_object_or_404(Product, id=product_id)
+    elif rec:
+        print('b')
+        product = get_object_or_404(Product2, id=product_id) 
     form = CartAddProductForm(request.POST)
     if form.is_valid():
         cd = form.cleaned_data
-        cart.add(product=product, quantity=cd['quantity'], update_quantity=cd['update'])
+        cart.add(product=product, rec=rec, quantity=cd['quantity'], update_quantity=cd['update'])
     return redirect('cart:cart_detail')
 
 
-def cart_remove(request, product_id):
+def cart_remove(request, product_id, rec):
     cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
-    cart.remove(product)
+    rec = int(rec)
+    if rec == 0: 
+        product = get_object_or_404(Product, id=product_id)
+    else:
+        product = get_object_or_404(Product2, id=product_id)
+    cart.remove(product, rec)
     return redirect('cart:cart_detail')
 
 

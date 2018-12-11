@@ -13,61 +13,20 @@
                 <div class="catagories-menu">
                     <ul>
                         {% for category in categories %}
-                        <li><a href="#">{{ category.name }}</a></li>
+                        <li><a href="{% url 'buyer:shop-category' forloop.counter rec %}">{{ category.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-
-            <!-- ##### Single Widget ##### -->
-            <div class="widget brands mb-50">
+            <div class="widget catagory mb-50">
                 <!-- Widget Title -->
-                <h6 class="widget-title mb-30">Brands</h6>
+                <h6 class="widget-title mb-30">Type of Order</h6>
 
-                <div class="widget-desc">
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="amado">
-                        <label class="form-check-label" for="amado">Amado</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="ikea">
-                        <label class="form-check-label" for="ikea">Ikea</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="furniture">
-                        <label class="form-check-label" for="furniture">Furniture Inc</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="factory">
-                        <label class="form-check-label" for="factory">The factory</label>
-                    </div>
-                    <!-- Single Form Check -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="artdeco">
-                        <label class="form-check-label" for="artdeco">Artdeco</label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ##### Single Widget ##### -->
-            <div class="widget color mb-50">
-                <!-- Widget Title -->
-                <h6 class="widget-title mb-30">Color</h6>
-
-                <div class="widget-desc">
-                    <ul class="d-flex">
-                        <li><a href="#" class="color1"></a></li>
-                        <li><a href="#" class="color2"></a></li>
-                        <li><a href="#" class="color3"></a></li>
-                        <li><a href="#" class="color4"></a></li>
-                        <li><a href="#" class="color5"></a></li>
-                        <li><a href="#" class="color6"></a></li>
-                        <li><a href="#" class="color7"></a></li>
-                        <li><a href="#" class="color8"></a></li>
+                <!--  Catagories  -->
+                <div class="catagories-menu">
+                    <ul>
+                        <li><a href="{% url 'buyer:shop' 0 %}">Selling</a></li>
+                        <li><a href="{% url 'buyer:shop' 1 %}">Leasing</a></li>
                     </ul>
                 </div>
             </div>
@@ -98,13 +57,19 @@
                         <div class="product-topbar d-xl-flex align-items-end justify-content-between">
                             <!-- Total Products -->
                             <div class="total-products">
-                                <p>Showing 1-8 0f 25</p>
+                                <p>Showing 12 items</p>
                                 <div class="view d-flex">
                                     <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-bars" aria-hidden="true"></i></a>
                                 </div>
                             </div>
-                            <!-- Sorting -->
+                            <ul class="navbar-nav">
+                                <li class="nav-item" style="margin-left: 7px;">
+                                    <form action="{% url 'seller:saleform.home' %}">
+                                        <button class="btn" type="submit" value="products to be sold" style="border-radius:0px ">Post AD for sale</button>
+                                    </form>
+                                </li>
+                            </ul>
+                                                    <!-- Sorting -->
                             <div class="product-sorting d-flex">
                                 <div class="sort-by-date d-flex align-items-center mr-15">
                                     <p>Sort by</p>
@@ -129,9 +94,9 @@
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
                             <div class="product-img">
-                                <img src="{{ product.image.url }}" alt="">
+                                <img src="{{ product.image.url }}" alt="" style="width:500px; height:500px;">
                                 <!-- Hover Thumb -->
-                                <img class="hover-img" src="{% static 'img/product-img/product2.jpg' %}" alt="">
+                                <img class="hover-img" src="{% static 'img/product-img/product2.jpg' %}" alt="" style="width:500px; height:500px;">
                             </div>
 
                             <!-- Product Description -->
@@ -140,7 +105,7 @@
                                 <div class="product-meta-data">
                                     <div class="line"></div>
                                     <p class="product-price">{{ product.price }}</p>
-                                    <a href="{% url 'buyer:shop-item' product.pk %}">
+                                    <a href="{% url 'buyer:shop-item' product.pk rec %}">
                                         <h6>{{ product.pname }}</h6>
                                     </a>
                                 </div>
@@ -167,16 +132,22 @@
                         <!-- Pagination -->
                         <nav aria-label="navigation">
                             <ul class="pagination justify-content-end mt-50">
-                                <li class="page-item active"><a class="page-link" href="#">01.</a></li>
-                                <li class="page-item"><a class="page-link" href="#">02.</a></li>
-                                <li class="page-item"><a class="page-link" href="#">03.</a></li>
-                                <li class="page-item"><a class="page-link" href="#">04.</a></li>
+                                {% if products.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ contacts.previous_page_number }}">Previous</a></li>
+                                {% endif %}
+                                <li class="page-item active"><a class="page-link" href="#">{{ products.number }}</a></li>
+                                {% if products.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ products.paginator.num_pages }}">Last</a></li>
+                                {% endif %}
                             </ul>
                         </nav>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- ##### Main Content Wrapper End ##### -->
 {% endblock %}

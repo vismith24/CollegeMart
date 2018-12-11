@@ -7,6 +7,8 @@ from accounts.models import Profile
 from cart.cart import Cart
 
 from . import Checksum
+from buyer.models import Orders_Buying
+from seller.models import Products_Selling, Products_Leasing
 
 from .models import PaytmHistory
 # Create your views here.
@@ -15,16 +17,29 @@ from .models import PaytmHistory
 def home(request):
     return HttpResponse("<html><a href='"+ settings.HOST_URL +"/paytm/payment'>PayNow</html>")
 
-@login_required
 @csrf_exempt
 def payment(request):
     cart = Cart(request)
+    bill_amount = cart.get_total_price()
+    profile = Profile.objects.get(user=request.user)
+    for item in cart:
+        rec = int(item['rec'])
+        if rec == 0:
+            Orders_Buying.objects.create(products_selling = item['sproduct'], buyer = profile)
+            p = Products_Selling.objects.filter(id = item['sproduct'].id)[0]
+            p.available = False
+            p.save()
+        else:
+            Orders_Leasing.objects.create(products_selling = item['lproduct'], buyer = profile)
+            p = Products_Leasing.objects.filter(id = item['lproduct'].id)[0]
+            p.available = False
+            p.save()
+    cart.cart.clear()
     MERCHANT_KEY = settings.PAYTM_MERCHANT_KEY
     MERCHANT_ID = settings.PAYTM_MERCHANT_ID
     CALLBACK_URL = settings.HOST_URL + settings.PAYTM_CALLBACK_URL
     # Generating unique temporary ids
     order_id = Checksum.__id_generator__()
-    bill_amount = 100
     if bill_amount:
         data_dict = {
                     'MID':MERCHANT_ID,

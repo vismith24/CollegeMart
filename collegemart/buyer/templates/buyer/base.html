@@ -69,17 +69,12 @@
             <!-- Amado Nav -->
             <nav class="amado-nav">
                 <ul>
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li><a href="{% url 'buyer:shop' %}">Shop</a></li>
+                    <li class="active"><a href="{% url 'buyer:home' %}">Home</a></li>
+                    <li><a href="{% url 'buyer:shop' 0 %}">Shop</a></li>
                     <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
                     <li><a href="{% url 'buyer:checkout' %}">Checkout</a></li>
                 </ul>
             </nav>
-            <!-- Button Group -->
-            <div class="amado-btn-group mt-30 mb-100">
-                <a href="#" class="btn amado-btn mb-15">%Discount%</a>
-                <a href="#" class="btn amado-btn active">New this week</a>
-            </div>
             <!-- Cart Menu -->
             <div class="cart-fav-search mb-100">
                 <a href="{% url 'cart:cart_detail' %}" class="cart-nav"><img src="img/core-img/cart.png" alt=""> Cart <span>(0)</span></a>
@@ -127,7 +122,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                                             <a class="nav-link" href="{% url 'buyer:home' %}">Home</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'buyer:shop' %}">Shop</a>
+                                            <a class="nav-link" href="{% url 'buyer:shop' 0 %}">Shop</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'cart:cart_detail' %}">Cart</a>

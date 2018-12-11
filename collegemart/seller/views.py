@@ -99,7 +99,7 @@ def Request(request):
             product.person = p
             print(product.person)
             product.save()
-            return redirect('saleform.home')
+            return redirect('seller:saleform.home')
         else:
             form7=requestform()
             return render(request, 'seller/request.html', {'form7':form7})

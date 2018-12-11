@@ -11,7 +11,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mt-50">
                                 <li class="breadcrumb-item"><a href="{% url 'buyer:home' %}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'buyer:shop-category' product.category.pk %}">{{ product.category.name }}</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'buyer:shop-category' product.category.pk rec %}">{{ product.category.name }}</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ product.pname }}</li>
                             </ol>
                         </nav>
@@ -89,7 +89,7 @@
                             </div>
 
                             <!-- Add to Cart Form -->
-                            <form action="{% url 'cart:cart_add' product.pk %}" class="cart clearfix" method="post">
+                            <form action="{% url 'cart:cart_add' product.pk rec %}" class="cart clearfix" method="post">
                                 {% csrf_token %}
                                 <div class="cart-btn d-flex mb-50">
                                     <p>Qty</p>

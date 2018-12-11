@@ -11,9 +11,9 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('cart/', include('cart.urls')),
     path('payment/', include('paytm.urls')),
-    path('shop/', views.shop_list, name='shop'),
-    path('shop/<int:cid>', views.shop_category, name='shop-category'),
-    path('shop/item/<int:pid>', views.shop_item, name='shop-item'),
+    path('shop/<int:rec>', views.shop_list, name='shop'),
+    path('shop/<int:cid>/<int:rec>', views.shop_category, name='shop-category'),
+    path('shop/item/<int:pid>/<int:rec>', views.shop_item, name='shop-item'),
     path('', views.home, name='home'),
     path('checkout', views.checkout, name="checkout"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
