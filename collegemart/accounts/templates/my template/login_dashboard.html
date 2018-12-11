@@ -1,0 +1,125 @@
+
+{% extends 'my template/login_base.html' %}
+{% load static %}
+{% block user_pic %}
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src='../../media/{{profile.photo}}' alt="User Avatar" style="height: 40px;width: 40px">
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="{% url 'my-profile' %}"><i class="fa fa-user"></i>My Profile</a>
+
+                            <a class="nav-link" href="#"><i class="ti ti-shopping-cart"></i>My Cart <span class="count">13</span></a>
+                            {% if u.is_active %}
+                            {% else %}
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#activate"><i class="ti ti-help-alt"></i>Activate account</a>
+
+                            {% endif %}
+                                <!-- Modal -->
+                                <div class="modal fade none-border" id="activate">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title"><strong>Add a category </strong></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-power-off"></i>Logout</a>
+                        </div>
+                    </div>
+{% endblock %}
+
+{% block body %}
+        <div class="content">
+
+            <div class="row">
+                        <!-- /# column -->
+                        <div class="col-lg-9">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Notifications</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="custom-tab">
+
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link active" id="custom-nav-home-tab" data-toggle="tab" href="#custom-nav-home" role="tab" aria-controls="custom-nav-home" aria-selected="true">Sales&nbsp;&nbsp;&nbsp;<span class="count">13</span></a>
+                                                <a class="nav-item nav-link" id="custom-nav-profile-tab" data-toggle="tab" href="#custom-nav-profile" role="tab" aria-controls="custom-nav-profile" aria-selected="false">Requests&nbsp;&nbsp;&nbsp;<span class="count" style="color: blue">{{ cn_count }}</span></a>
+                                                <a class="nav-item nav-link" id="custom-nav-contact-tab" data-toggle="tab" href="#custom-nav-contact" role="tab" aria-controls="custom-nav-contact" aria-selected="false">Orders&nbsp;&nbsp;&nbsp;<span class="count" style="color: yellow">13</span></a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="custom-nav-home" role="tabpanel" aria-labelledby="custom-nav-home-tab">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="card-content">
+                                                            <div class="todo-list">
+                                                                <div class="tdl-holder">
+                                                                    <div class="tdl-content">
+                                                                        <ul>
+                                                                            {% for no in n %}
+                                                                            <li>
+                                                                                <label>
+                                                                                    <span>{{ no.message }}</span>
+                                                                                    <a href='#' class="fa fa-info"></a>
+                                                                                </label>
+                                                                            </li>
+                                                                            {% endfor %}
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div> <!-- /.todo-list -->
+                                                        </div>
+                                                    </div> <!-- /.card-body -->
+                                                </div><!-- /.card -->
+                                            </div>
+                                            <div class="tab-pane fade" id="custom-nav-profile" role="tabpanel" aria-labelledby="custom-nav-profile-tab">
+                                            <div class="tab-pane fade show active" id="custom-nav-home" role="tabpanel" aria-labelledby="custom-nav-home-tab">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="card-content">
+                                                            <div class="todo-list">
+                                                                <div class="tdl-holder">
+                                                                    <div class="tdl-content">
+                                                                        <ul>
+                                                                            {% for c in cn %}
+                                                                            <li>
+                                                                                <label>
+                                                                                    <span>{{ c.message }}</span>
+                                                                                    <a href='#' class="fa fa-info"></a>
+                                                                                </label>
+                                                                            </li>
+                                                                            {% endfor %}
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div> <!-- /.todo-list -->
+                                                        </div>
+                                                    </div> <!-- /.card-body -->
+                                                </div><!-- /.card -->
+                                            </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="custom-nav-contact" role="tabpanel" aria-labelledby="custom-nav-contact-tab">
+                                                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel, butcher voluptate nisi .</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                    </div>
+        </div>
+
+
+
+{% endblock %}

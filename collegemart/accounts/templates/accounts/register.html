@@ -1,7 +1,5 @@
+{% extends 'buyer/base.html' %}
 {% load crispy_forms_tags %}
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,7 +12,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
-<body style="background-color: #F5F7FA"><br><br><div class="container" style="background-color: #ffffff; width: 500px;">
+{% block content %}
+<div class="container" style="background-color: #ffffff; width: 500px;">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
@@ -36,7 +35,7 @@
         } );
     </script>
     <div class="border-top pt-3">
-        <small class="text-muted"><a class="ml-2" href="">Already have an account?</a> </small>
+        <small class="text-muted"><a class="ml-2" href="{% url 'login' %}">Already have an account?</a> </small>
     </div></div>
-</body>
-</html>
+    </div>
+{% endblock %}

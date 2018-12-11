@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{% static 'assets/scss/style.scss' %}">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/logo_favic.png' %}">
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
     {% block in_style %}
@@ -78,24 +79,17 @@
                     <li class="menu-title"style="background-color: #fbb710;color: white;font-size: large;">Billing </li><!-- /.menu-title -->
 
                     <li>
-                        <a href="#"> <i class="menu-icon fa fa-table"></i>All Invoices</a>
-                    </li>
-                    <li>
-                        <a href="#"> <i class="menu-icon ti-eye"></i>View Invoice</a>
+                        <a href="{% url 'view-invoice-select' %}"> <i class="menu-icon fa fa-table"></i>All Invoices</a>
                     </li>
                     
-                    
-
-                    
-
-
+                
                     <li class="menu-title"style="background-color: #fbb710;color: white;font-size: large;">Promotions </li><!-- /.menu-title -->
 
                     <li>
-                        <a href="#"> <i class="menu-icon ti-email"></i>Requests </a>
+                        <a href="#"> <i class="menu-icon ti-email"></i>Requests</a>
                     </li>
                     <li>
-                        <a href="#"> <i class="menu-icon ti-email"></i>New Products </a>
+                        <a href="#"> <i class="menu-icon ti-email"></i>New Products</a>
                     </li>
                    
                 </ul>
@@ -109,7 +103,7 @@
         <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
-                    <a class="navbar-brand"><img src="{% static 'images/log.png' %}" alt="Logo"></a>
+                    <a class="navbar-brand"><img src="{% static 'images/logo_cm_a.png' %}" alt="Logo"></a>
                     <a class="navbar-brand hidden"><img src="images/logo2.png" alt="Logo"></a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
@@ -119,16 +113,12 @@
                     <div class="header-left">
                         <button class="search-trigger"><i class="fa fa-search"></i></button>
                         <div class="form-inline" style="background-color: #fbb710">
-                            <form class="search-form">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search" style=" background-color: #fbb710;color: white;">
+                            <form class="search-form" action="{% url 'buyer:search' %}" method="get">
+                                <button type="submit" style="left: 50%"><img src="{% static 'img/core-img/search.png' %}" alt=""></button>
+                                <input name="search_box" class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search" style=" background-color: #fbb710;color: white;">
                                 <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                             </form>
                         </div>
-                    <div class="dropdown for-notification">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-power-off"></i>
-                            </button>
-                    </div>
 
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

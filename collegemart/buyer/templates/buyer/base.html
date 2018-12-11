@@ -11,8 +11,7 @@
 
     <!-- Title  -->
     <!-- Favicon  --><!-- Favicon  -->
-    <link rel="icon" href="{% static 'img/core-img/favicon.ico' %}">
-
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/logo_favic.png' %}">
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="{% static 'css/core-style.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -30,9 +29,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="search-content">
-                        <form action="#" method="get">
-                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
-                            <button type="submit"><img src="img/core-img/search.png" alt=""></button>
+                        <form action="{% url 'buyer:search' %}" method="get">
+                            <input type="search" name="search_box" id="search_box" placeholder="Type your keyword...">
+                            <button type="submit"><img src="{% static 'img/core-img/search.png' %}" alt=""></button>
                         </form>
                     </div>
                 </div>
@@ -48,7 +47,7 @@
         <div class="mobile-nav">
             <!-- Navbar Brand -->
             <div class="amado-navbar-brand">
-                <a href="{% url 'buyer:home' %}"><img src="img/core-img/logo.png" alt=""></a>
+                <a href="{% url 'buyer:home' %}"><img src="{% static 'img/logo_cm.png' %}" alt=""></a>
             </div>
             <!-- Navbar Toggler -->
             <div class="amado-navbar-toggler">
@@ -64,22 +63,28 @@
             </div>
             <!-- Logo -->
             <div class="logo">
-                <a href="{% url 'buyer:home' %}"><img src="img/core-img/logo.png" alt=""></a>
+                <a href="{% url 'buyer:home' %}"><img src="{% static 'img/logo_cm.png' %}" alt=""></a>
             </div>
             <!-- Amado Nav -->
             <nav class="amado-nav">
                 <ul>
                     <li class="active"><a href="{% url 'buyer:home' %}">Home</a></li>
                     <li><a href="{% url 'buyer:shop' 0 %}">Shop</a></li>
-                    <li><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
+                    {% if user.is_authenticated %}
+                    <li class=""><a href="{% url 'my-profile' %}">View Profile</a></li>
+                    <li class=""><a href="{% url 'reset-password' %}">Change password</a></li>
+                    <li class=""><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                    <li class=""><a href="{% url 'login' %}">Login</a></li>
+                    <li class=""><a href="{% url 'register' %}">Sign Up</a></li>
+                    {% endif %}
                     <li><a href="{% url 'buyer:checkout' %}">Checkout</a></li>
                 </ul>
             </nav>
             <!-- Cart Menu -->
             <div class="cart-fav-search mb-100">
-                <a href="{% url 'cart:cart_detail' %}" class="cart-nav"><img src="img/core-img/cart.png" alt=""> Cart <span>(0)</span></a>
-                <a href="#" class="fav-nav"><img src="img/core-img/favorites.png" alt=""> Favourite</a>
-                <a href="#" class="search-nav"><img src="img/core-img/search.png" alt=""> Search</a>
+                <a href="{% url 'cart:cart_detail' %}" class="cart-nav"><img src="{% static 'img/core-img/cart.png' %}" alt=""> Cart <span>({{ cart|length }})</span></a>
+                <a href="#" class="search-nav"><img src="{% static 'img/core-img/search.png' %}" alt=""> Search</a>
             </div>
             <!-- Social Button -->
             <div class="social-info d-flex justify-content-between">
@@ -101,11 +106,11 @@
                     <div class="single_widget_area">
                         <!-- Logo -->
                         <div class="footer-logo mr-50">
-                            <a href="{% url 'buyer:home' %}"><img src="img/core-img/logo2.png" alt=""></a>
+                            <a href="{% url 'buyer:home' %}"><img src="{% static 'img/logo_cm.png' %}" alt=""></a>
                         </div>
                         <!-- Copywrite Text -->
                         <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="{% url 'buyer:home' %}" target="_blank">CollegeMart</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
                 </div>

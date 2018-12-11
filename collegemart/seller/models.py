@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class Category(models.Model):
@@ -67,3 +69,18 @@ class Request_table(models.Model):
 
     def __repr__(self):
         return self.pname2
+
+class commonNotification(models.Model):
+    message=models.CharField(max_length=100,default="")
+    status=models.BooleanField(default=False)
+
+
+@receiver(post_save,sender=Request_table)
+def sendnotification(sender,instance,created,**kwargs):
+
+   if created:
+       message=" One of your collegemates needs "+str(instance.pname2)+".If you have it, you can post an ad."
+       commonNotification.objects.create(
+           message=message
+       )
+

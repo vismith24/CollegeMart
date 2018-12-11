@@ -20,6 +20,11 @@ from accounts.models import Profile
 from seller.models import Products_Selling
 from buyer.models import Orders_Buying
 from .forms import AdminAddProductForm, AdminEditUserForm, AdminEditProductForm
+
+from seller.models import commonNotification
+from buyer.models import Notification
+
+from cart.cart import Cart
 # Create your views here.
 
 def signup(request):
@@ -48,6 +53,8 @@ def signup(request):
         form1 = SignupForm()
         form2 = ProfileForm()
         return render(request, 'accounts/register.html', {'form1': form1, 'form2': form2,})
+
+        
 
 def activate(request, uidb64, token):
     try:
@@ -80,6 +87,8 @@ def change_password(request):
     return render(request, 'accounts/change_password.html', {'form': form})
 
 def login(request):
+    cart = Cart(request)
+    cart.cart.clear()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
@@ -225,3 +234,47 @@ def order_show(request):
 
 def logged_in(request):
     return render(request, 'my template/login_base.html')
+
+@login_required
+def login_dashboard(request):
+    profile = Profile.objects.get(user=request.user)
+    u = User.objects.get(username=request.user)
+
+    # for notifications
+    cn = commonNotification.objects.all()
+    cn_count = commonNotification.objects.all().count()
+
+    n = Notification.objects.filter(product__seller__user = request.user)
+
+    #Notification.seller.Products_Selling.Seller.user.username
+
+    return render(request, 'my template/login_dashboard.html', {'profile': profile, 'cn': cn, 'cn_count': cn_count, 'n': n})
+
+def admin_invoices_show(request):
+    order = Orders_Buying.objects.all()
+    return render(request, 'my template/admin_invoice_show.html', {'order': order})
+
+
+def admin_view_invoice(request, iid):
+    order = Orders_Buying.objects.get(pk=iid)
+    seller = User.objects.get(username=order.products_selling.seller)
+    seller_profile = Profile.objects.get(user__username=order.products_selling.seller)
+
+    print(seller)
+    print(seller_profile)
+    return render(request, 'my template/admin_view_invoice.html', {'order': order, 'seller': seller, 'seller_profile': seller_profile})
+
+@login_required
+def my_invoices_show(request):
+    p = Profile.objects.get(user=request.user)
+    order = Orders_Buying.objects.filter(buyer=p)
+    return render(request, 'my template/login_my_invoices_show.html', {'order': order})
+
+@login_required
+def login_view_invoice(request, iid):
+    order = Orders_Buying.objects.get(pk=iid)
+    seller = User.objects.get(username=order.products_selling.seller)
+    seller_profile = Profile.objects.get(user__username=order.products_selling.seller)
+    profile  = Profile.objects.get(user = request.user)
+
+    return render(request, 'my template/login_view_invoice.html', {'order': order, 'seller': seller, 'seller_profile': seller_profile, 'profile': profile})

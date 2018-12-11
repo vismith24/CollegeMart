@@ -13,7 +13,8 @@ urlpatterns = [
     #path('explore/',views.explore,name='explore'),
     #path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('login/', views.login, name='login'),
-    url(r'^logout/$', auth_views.LogoutView.as_view(template_name='accounts/homepage.html'), name='logout'),
+    #path('logout/', views.logout, name='logout'),
+    url(r'^logout/$', auth_views.LogoutView.as_view(next_page = '/accounts/login/'), name='logout'),
     url(r'^password/$', views.change_password, name='change_password'),
     url(r'^register/$', views.signup, name='register'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',views.activate, name='activate'),
@@ -36,5 +37,10 @@ urlpatterns = [
     path('logged_in/', views.logged_in, name='after-login'),
     path('profile/', views.my_profile, name='my-profile'),
     path('edit_my_profile/', views.edit_profile, name='edit-my-profile'),
+    path('dashboard/', views.login_dashboard, name='login-dashboard'),
+    path('admin/view_invoice_show/', views.admin_invoices_show, name='view-invoice-select'),
+    path('admin/view_invoice/<iid>', views.admin_view_invoice, name='admin-view-invoice'),
+    path('view_my_invoice/', views.my_invoices_show, name='my-invoices'),
+    path('view_invoice/<iid>', views.login_view_invoice, name='view-my-invoice'),
 ]
 

@@ -7,7 +7,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 {% block content %}
-<div class="container">
+<div class="container" style="top:50px; width:100px;">
+</div>
+<div class="container"  style="background-color: #ffffff; width: 500px;">
       <h2>Login</h2>
   <form method="post">
     {% csrf_token %}
@@ -15,5 +17,6 @@
     <button type="submit">Login</button>
   </form>
     <a href="{% url 'password_reset' %}">Forgot password?</a>
+    </div>
     </div>
 {% endblock content %}
