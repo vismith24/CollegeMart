@@ -1,0 +1,74 @@
+{% extends 'my template/login_base.html' %}
+{% load static %}
+{% block user_pic %}
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src='{{ profile.photo.url }}' alt="User Avatar" style="height: 40px;width: 40px">
+                        </a>
+
+                        <div class="user-menu dropdown-menu">
+                            <a class="nav-link" href="{% url 'my-profile' %}"><i class="fa fa-user"></i>My Profile</a>
+
+                            <a class="nav-link" href="{% url 'cart:cart_detail' %}"><i class="ti ti-shopping-cart"></i>My Cart <span class="count">13</span></a>
+                            {% if u.is_active %}
+                            {% else %}
+                                <a class="nav-link" href="#"><i class="ti ti-help-alt"></i>Activate my account</a>
+                            {% endif %}
+
+                            <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-power-off"></i>Logout</a>
+                        </div>
+                    </div>
+{% endblock %}
+{% block body %}
+        <div class="content">
+            <div class="animated fadeIn">
+                    <div class="card">
+                        <div class="card-header" style="background-color: #fbb710; color: white">
+                            <strong class="card-title mb-3">Profile</strong>
+                            <a href="{% url 'edit-my-profile' %}" class="pull-right">&nbsp;<i class="menu-icon ti-pencil"></i></a>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <aside class="profile-nav alt">
+                                <section class="card">
+
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <strong>Username:</strong> {{ u.username }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Full Name:</strong> {{ profile.fname }}&nbsp;{{ profile.lname }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-envelope-o"></i> {{ u.email }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-phone"></i> {{ profile.phone }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-calendar"></i> {{ profile.dob }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Bio:</strong><br>
+                                            <p>
+                                            {{ profile.bio }}
+                                            </p>
+                                        </li>
+                                    </ul>
+
+                                </section>
+                            </aside>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body" style="height: 100%">
+                                    <img class="card-img-top" src='{{ profile.photo.url }}' alt="Card image cap" style="height: 300px;width: 242px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

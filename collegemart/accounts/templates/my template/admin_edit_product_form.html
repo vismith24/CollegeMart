@@ -1,0 +1,105 @@
+{% extends 'my template/demo_body.html' %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(function () {
+            $('#id_pname').addClass("form-control mb-4");
+            $("#id_category").addClass("form-control mb-4");
+            $("#id_description").addClass("form-control mb-4");
+            $('#id_price').addClass("form-control mb-4");
+             $('#id_image').addClass('form-control-file');
+
+        });
+
+    </script>
+{% endblock %}
+
+
+{% block table %}
+        <div class="breadcrumbs">
+            <div class="breadcrumbs-inner">
+                <div class="row m-0">
+                    <div class="col-sm-4">
+                        <div class="page-header float-left">
+                            <div class="page-title">
+                                <h1>Dashboard</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="page-header float-right">
+                            <div class="page-title">
+                                <ol class="breadcrumb text-right">
+                                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                                    <li><a href="#">Products</a></li>
+                                    <li class="active">Edit Product</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="animated fadeIn">
+                <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Edit Product</strong> Form
+                            </div>
+                            <div class="card-body card-block">
+                                <form action="{% url 'admin-edit-product' product.pk%}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product ID :</label></div>
+                                        <div class="col-12 col-md-9">
+                                            {{product.pk}}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product Name :</label></div>
+                                        <div class="col-12 col-md-9">
+                                            {{product.pname}}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category :</label></div>
+                                        <div class="col-12 col-md-9">
+                                            {{form8.category}}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Amount :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form8.price }}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">Photo :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form8.image }}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form8.description }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <button type="submit" class="btn btn-outline-secondary">
+                                            Submit
+                                        </button>
+                                        <button type="reset" class="btn btn-outline-secondary">
+                                            Reset
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                  </div>
+            </div>
+        </div>
+{% endblock %}

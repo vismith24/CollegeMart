@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile
 from phonenumber_field.formfields import PhoneNumberField
+from seller.models import Products_Selling
 
 class SignupForm(UserCreationForm):
     email = forms.EmailField(max_length=200, help_text='Required')
@@ -41,3 +42,19 @@ class ProfileUpdateForm(forms.ModelForm):
         widgets = {
             'dob': forms.DateInput(attrs={'class': 'dob'}),
         }
+
+class AdminAddProductForm(forms.ModelForm):
+    class Meta:
+        model = Products_Selling
+        fields = ('pname', 'description', 'image', 'category', 'price', 'seller')
+
+class AdminEditUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email', 'is_active')
+
+
+class AdminEditProductForm(forms.ModelForm):
+    class Meta:
+        model = Products_Selling
+        fields = ('description', 'image', 'category', 'price')

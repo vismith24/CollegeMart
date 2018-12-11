@@ -13,6 +13,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as auth_login
+
+from accounts.models import Profile
+from seller.models import Products_Selling
+from buyer.models import Orders_Buying
+from .forms import AdminAddProductForm, AdminEditUserForm, AdminEditProductForm
 # Create your views here.
 
 def signup(request):
@@ -72,6 +79,24 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'accounts/change_password.html', {'form': form})
 
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            print(user)
+            auth_login(request, user)
+            u = User.objects.get(username=user)
+            print(u)
+            if u.is_superuser:
+                return redirect('dashboard')
+            else:
+                return redirect('my-profile')
+        else:
+            return HttpResponse("invalid details!")
+    else:
+        form = AuthenticationForm()
+    return render(request, 'accounts/login.html', {'form': form})
 
 @login_required
 def view_profile(request):
@@ -93,4 +118,110 @@ def edit_profile(request):
         p_form = ProfileUpdateForm(instance=profile)
     else:
         p_form = ProfileUpdateForm(instance=profile)
-        return render(request, 'accounts/edit_profile.html', {'p_form': p_form})
+        u = User.objects.get(username=request.user)
+        profile = Profile.objects.get(user=request.user)
+        return render(request, 'my template/login_edit_profile.html', {'p_form': p_form, 'profile': profile, 'u': u})
+
+def admin_dashboard(request):
+    products = Products_Selling.objects.all().count()
+    users = User.objects.all().count()
+    return render(request, 'my template/admin_dashboard.html', {'products': products, 'users': users})
+
+def user_show(request):
+    user = User.objects.all()
+    return render(request, 'my template/demo_table.html', {'user':user})
+
+def admin_add_product(request):
+    if request.method == 'POST':
+        form3 = AdminAddProductForm(request.POST, request.FILES)
+        if form3.is_valid():
+            product = form3.save()
+            m = Products_Selling.objects.filter(seller=product.seller)
+            return render(request, 'my template/admin_my_products.html', {'m': m})
+    else:
+        form3 = AdminAddProductForm()
+        return render(request, 'my template/admin_add_product_form.html', {'form3': form3})
+
+def admin_my_products(request):
+    p = Profile.objects.get(user=request.user)
+    m = Products_Selling.objects.filter(Seller=p)
+    return render(request, 'my template/admin_my_products.html', {'m': m})
+
+@login_required
+def my_profile(request):
+    u = User.objects.get(username=request.user)
+    profile = Profile.objects.get(user=request.user)
+    return render(request, 'my template/login_profile.html', {'profile': profile, 'u': u})
+
+def product_show(request):
+    product = Products_Selling.objects.all()
+    return render(request, 'my template/admin_products_table.html', {'product':product})
+
+
+def admin_add_user(request):
+    if request.method == 'POST':
+        form1 = SignupForm(request.POST)
+        if form1.is_valid():
+            user = form1.save(commit=False)
+            user.is_active = False
+            user.save()
+            return redirect('/accounts/admin/user_table/')
+    else:
+        form1 = SignupForm()
+    return render(request, 'my template/admin_add_user.html', {'form1': form1})
+
+
+def admin_edit_user_show(request):
+    user = User.objects.all()
+    return render(request, 'my template/admin_edit_user.html', {'user': user})
+
+
+def admin_edit_user(request, uid):
+    if request.method == 'POST':
+        # uid = u.pk
+        user = User.objects.get(pk=uid)
+        form7 = AdminEditUserForm(request.POST)
+        if form7.is_valid():
+            form7 = AdminEditUserForm(request.POST, instance=user)
+            form7.save()
+            return redirect('edit-user-show')
+    else:
+        user = User.objects.get(pk=uid)
+        form7 = AdminEditUserForm(instance=user)
+    return render(request, 'my template/admin_edit_user_form.html', {'form7': form7, 'user': user})
+
+
+def admin_edit_product_show(request):
+    product = Products_Selling.objects.all()
+    return render(request, 'my template/admin_edit_product.html', {'product': product})
+
+
+def admin_edit_product(request, pid):
+    if request.method == 'POST':
+        product = Products_Selling.objects.get(pk=pid)
+        form8 = AdminEditProductForm(request.POST,request.FILES)
+        if form8.is_valid():
+            form8 = AdminEditProductForm(request.POST, instance=product)
+            form8.save()
+            return redirect('edit-product-show')
+    else:
+        product = Products_Selling.objects.get(pk=pid)
+        form8 = AdminEditProductForm(instance=product)
+    return render(request, 'my template/admin_edit_product_form.html', {'form8': form8, 'product': product})
+
+
+def admin_delete_product_show(request):
+    product = Products_Selling.objects.all()
+    return render(request, 'my template/admin_delete_product.html', {'product': product})
+
+def admin_delete_product(request, pid):
+    product = Products_Selling.objects.get(pk=pid)
+    product.delete()
+    return redirect('delete-product-show')
+
+def order_show(request):
+    order = Orders_Buying.objects.all()
+    return render(request, 'my template/admin_order_show.html', {'order': order})
+
+def logged_in(request):
+    return render(request, 'my template/login_base.html')

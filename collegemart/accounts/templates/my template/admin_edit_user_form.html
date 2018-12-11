@@ -1,0 +1,94 @@
+{% extends 'my template/demo_body.html' %}
+{% block script %}
+    <script type="text/javascript">
+        $(function () {
+            $('#id_email').addClass("form-control mb-4");
+
+        });
+
+    </script>
+{% endblock %}
+
+{% block table %}
+        <div class="breadcrumbs">
+            <div class="breadcrumbs-inner">
+                <div class="row m-0">
+                    <div class="col-sm-4">
+                        <div class="page-header float-left">
+                            <div class="page-title">
+                                <h1>Dashboard</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="page-header float-right">
+                            <div class="page-title">
+                                <ol class="breadcrumb text-right">
+                                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                                    <li><a href="{% url 'user-show' %}">Users</a></li>
+                                    <li class="active">Edit user</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="animated fadeIn">
+                <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Edit User</strong> Form
+                            </div>
+                            <div class="card-body card-block">
+                                <form action="{% url 'admin-edit-user' user.pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">User ID :</label></div>
+                                        <div class="col-12 col-md-9">
+                                            {{user.pk}}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Username :</label></div>
+                                        <div class="col-12 col-md-9">
+                                            {{user.username}}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Old Email :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ user.email }}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">New Email :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form7.email }}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Activate account :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form7.is_active }}<br>
+                                            <p>Tick here to activate the user</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <button type="submit" class="btn btn-outline-secondary">
+                                            Submit
+                                        </button>
+                                        <button type="reset" class="btn btn-outline-secondary">
+                                            Reset
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                  </div>
+            </div>
+        </div>
+{% endblock %}
