@@ -50,10 +50,31 @@
                                     {% for p in product %}
                                     <tr>
                                         <td>{{ p.pname }}</td>
-                                        <td>{{ p.Category }}</td>
-                                        <td>{{ p.amount }}</td>
-                                        <td><a href="{% url 'admin-delete-product' p.pk %}">&nbsp;<i class="menu-icon ti-trash"></i>&nbsp;Delete</a> </td>
-                                    </tr>
+                                        <td>{{ p.category }}</td>
+                                        <td>{{ p.price }}</td>
+                                        <td><a href="" data-toggle="modal" data-target="#myModal1">&nbsp;<i class="menu-icon ti-trash"></i>&nbsp;Delete</a> </td>
+                                            <div class="modal fade" id="myModal1" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="background-color: #fbb710; color: white">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">Confirmation</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    <p>Are you sure you want to delete the product?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                                                    <a href="{% url 'admin-delete-product' p.pk %}"><button class="btn btn-outline-secondary">Delete</button></a>
+        </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+                                      </tr>
                                     {% endfor %}
                                     </tbody>
                                 </table>

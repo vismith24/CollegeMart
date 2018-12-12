@@ -72,6 +72,7 @@ class Request_table(models.Model):
 
 class commonNotification(models.Model):
     message=models.CharField(max_length=100,default="")
+    request=models.ForeignKey(Request_table,on_delete=models.CASCADE,default='')
     status=models.BooleanField(default=False)
 
 
@@ -81,6 +82,7 @@ def sendnotification(sender,instance,created,**kwargs):
    if created:
        message=" One of your collegemates needs "+str(instance.pname2)+".If you have it, you can post an ad."
        commonNotification.objects.create(
-           message=message
+           message=message,
+           request=instance
        )
 

@@ -62,9 +62,6 @@
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     </div>
-                                    <div class="review">
-                                        <a href="#">Write A Review</a>
-                                    </div>
                                 </div>
                                 <!-- Avaiable -->
                                 <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
@@ -72,7 +69,7 @@
 
                             <div class="short_overview my-5">
                                 <p>{{ product.description }}</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?</p>
+                                <p>Buy this product from our website to get the best user experience. You can get amazing deals here.</p>
                             </div>
 
                             <!-- Add to Cart Form -->
@@ -83,7 +80,9 @@
                                     <div class="quantity">
                                         <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
                                     </div>
+                                    <div hidden>
                                     {{ cart_product_form|crispy }}
+                                    </div>
                                 </div>
                                 <button type="submit" name="addtocart" value="5" class="btn amado-btn">Add to cart</button>
                             </form>

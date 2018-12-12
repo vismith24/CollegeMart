@@ -103,32 +103,34 @@ def search(request):
                 return redirect('seller:request')
 
 def order_create(request):
-    cart = Cart(request)
-    profile = Profile.objects.get(user=request.user)
-    for item in cart:
-        rec = int(item['rec'])
-        if rec == 0:
-            order = Orders_Buying.objects.create(products_selling = item['sproduct'], buyer = profile, payment_type='2')
-            p = Products_Selling.objects.filter(id = item['sproduct'].id)[0]
-            p.available = False
-            p.save()
-        else:
-            Orders_Leasing.objects.create(products_leasing = item['lproduct'], buyer = profile)
-            p = Products_Leasing.objects.filter(id = item['lproduct'].id)[0]
-            p.available = False
-            p.save()
-    profile = Profile.objects.get(user = request.user)
-    create_invoice(profile, order)
-    current_site = get_current_site(request)
-    mail_subject = 'Your Order Invoice.'
-    message = render_to_string('buyer/order_email.html')
-    to_email = request.user.email
-    email = EmailMessage(
-                mail_subject, message, to=[to_email]
-    )
-    email.attach_file(MEDIA_ROOT+'/orders/'+str(order.id)+".pdf")
-    email.send()
-    return redirect('paytm:payment')
+    if request.method == 'POST':
+        mode = request.POST['mode']
+        cart = Cart(request)
+        profile = Profile.objects.get(user=request.user)
+        for item in cart:
+            rec = int(item['rec'])
+            if rec == 0:
+                order = Orders_Buying.objects.create(products_selling = item['sproduct'], buyer = profile, payment_type=mode)
+                p = Products_Selling.objects.filter(id = item['sproduct'].id)[0]
+                p.available = False
+                p.save()
+            else:
+                Orders_Leasing.objects.create(products_leasing = item['lproduct'], buyer = profile, payment_type=mode)
+                p = Products_Leasing.objects.filter(id = item['lproduct'].id)[0]
+                p.available = False
+                p.save()
+        profile = Profile.objects.get(user = request.user)
+        create_invoice(profile, order)
+        current_site = get_current_site(request)
+        mail_subject = 'Your Order Invoice.'
+        message = render_to_string('buyer/order_email.html')
+        to_email = request.user.email
+        email = EmailMessage(
+                    mail_subject, message, to=[to_email]
+        )
+        email.attach_file(MEDIA_ROOT+'/orders/'+str(order.id)+".pdf")
+        email.send()
+        return redirect('paytm:payment')
 
 def order_cancellation(request, pid):
     o=Orders_Buying.objects.get(pk=pid)

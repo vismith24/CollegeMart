@@ -1,5 +1,5 @@
 from django.db import models
-from seller.models import Products_Selling
+from seller.models import Products_Selling, Products_Leasing
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
@@ -29,6 +29,11 @@ class Notification(models.Model):
     product=models.ForeignKey(Products_Selling,on_delete=models.CASCADE)
     status=models.BooleanField(default=False)
 
+class Leasing_Notification(models.Model):
+    message=models.CharField(max_length=100,default="")
+    product=models.ForeignKey(Products_Leasing,on_delete=models.CASCADE)
+    status=models.BooleanField(default=False)
+
 
 @receiver(post_save,sender=Orders_Buying)
 def sendnotification(sender,instance,created,**kwargs):
@@ -39,4 +44,16 @@ def sendnotification(sender,instance,created,**kwargs):
        Notification.objects.create(
            message=message,
            product=instance.products_selling,
+       )
+
+
+@receiver(post_save,sender=Orders_Leasing)
+def sendnotification(sender,instance,created,**kwargs):
+   if created:
+       instance.products_leasing.available=False
+       instance.products_leasing.save()
+       message=" Your "+str(instance.products_leasing.pname1)+" was bought by "+str(instance.buyer.user.username)+" !!"
+       Leasing_Notification.objects.create(
+           message=message,
+           product=instance.products_leasing,
        )

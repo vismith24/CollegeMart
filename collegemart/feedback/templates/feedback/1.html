@@ -1,0 +1,35 @@
+{% extends 'buyer/base.html' %}
+{% load static %}
+{% block content%}
+
+<div class="container" style="top:50px; width:100px;">
+</div>
+<div class="container"  style="background-color: white;box-shadow:10px 10px 15px #888888; width: 500px;margin-right: 30%; margin-top: 13.5%;margin-bottom:16%">
+      <h2 style="font-family: helveticaneuemedium;text-transform: uppercase;color: darkslategrey;">Feedback</h2>
+  <form action="{% url 'feedback:home' %}" method="post">
+    {% csrf_token %}
+    <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="name" type="text" name="name" required class="validate" placeholder="Name">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="email" type="email" name="email" required class="validate" placeholder="E-mail">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="comments" name="comments" class="materialize-textarea" class="validate" placeholder="Comments" ></textarea>
+
+                                </div>
+                            </div>
+                            <div>
+                                <button class="waves-effect waves-light btn submitbtn" type="submit">Submit</button>
+                            </div>
+                        </form>
+    </div>    </div>
+
+{% endblock %}

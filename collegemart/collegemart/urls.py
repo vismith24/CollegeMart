@@ -25,4 +25,5 @@ urlpatterns = [
     path('payment/', include('paytm.urls')),
     path('buyer/', include('buyer.urls')),
     path('seller/', include('seller.urls')),
+    path('feedback/', include('feedback.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,17 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from accounts.models import Profile
 from cart.cart import Cart
-
+from django.shortcuts import redirect
 from . import Checksum
 from buyer.models import Orders_Buying
 from seller.models import Products_Selling, Products_Leasing
 
 from .models import PaytmHistory
 # Create your views here.
-
-@login_required
-def home(request):
-    return HttpResponse("<html><a href='"+ settings.HOST_URL +"/paytm/payment'>PayNow</html>")
 
 def payment(request):
     cart = Cart(request)
@@ -39,7 +35,6 @@ def payment(request):
                 }
         param_dict = data_dict
         param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(data_dict, MERCHANT_KEY)
-        print('a', param_dict)
         return render(request,"paytm/payment.html",{'paytmdict':param_dict})
     return HttpResponse("Bill Amount Could not find. ?bill_amount=10")
 
@@ -50,15 +45,11 @@ def response(request):
         data_dict = {}
         for key in request.POST:
             data_dict[key] = request.POST[key]
-        print('b', data_dict)
         verify = Checksum.verify_checksum(data_dict, MERCHANT_KEY, data_dict['CHECKSUMHASH'])
         if verify:
-            print(verify)
             PaytmHistory.objects.create(**data_dict)
-            print(data_dict)
             return render(request, "paytm/response.html", {"paytm":data_dict})
         else:
-            print("no")
             return HttpResponse("checksum verify failed")
     return HttpResponse(status=200)
 
@@ -66,6 +57,5 @@ def status(request):
     data_dict = {}
     for key in request.POST:
         data_dict[key] = request.POST[key]
-    print(data_dict)
     context = {'resultDict': data_dict}
-    return render(request, 'paytm/status.html', context )
+    return redirect('buyer:home')

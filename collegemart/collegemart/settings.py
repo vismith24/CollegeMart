@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'phonenumber_field',
     'crispy_forms',
+    'feedback',
     'accounts',
     'paytm',
     'seller',

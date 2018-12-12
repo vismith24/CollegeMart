@@ -15,14 +15,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import update_session_auth_hash
 
 from accounts.models import Profile
-from seller.models import Products_Selling
-from buyer.models import Orders_Buying
+from seller.models import Products_Selling, Request_table, Products_Leasing
+from buyer.models import Orders_Buying, Orders_Leasing
 from .forms import AdminAddProductForm, AdminEditUserForm, AdminEditProductForm
 
 from seller.models import commonNotification
-from buyer.models import Notification
+from buyer.models import Notification, Leasing_Notification
+
+from django.urls import reverse
 
 from cart.cart import Cart
 # Create your views here.
@@ -49,6 +52,7 @@ def signup(request):
             to_email = form1.cleaned_data.get('email')
             send_mail(mail_subject, message, "vismith.24.adappa@gmail.com", [to_email])
             return HttpResponse('Please confirm your email address to complete the registration')
+        return HttpResponse(status=404)
     else:
         form1 = SignupForm()
         form2 = ProfileForm()
@@ -67,9 +71,9 @@ def activate(request, uidb64, token):
         user.save()
         login(request, user)
         #return redirect('accounts:accounts')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return redirect('login')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return redirect('login')
 
 @login_required
 def change_password(request):
@@ -102,7 +106,7 @@ def login(request):
             else:
                 return redirect('my-profile')
         else:
-            return HttpResponse("invalid details!")
+            return redirect('login')
     else:
         form = AuthenticationForm()
     return render(request, 'accounts/login.html', {'form': form})
@@ -134,7 +138,8 @@ def edit_profile(request):
 def admin_dashboard(request):
     products = Products_Selling.objects.all().count()
     users = User.objects.all().count()
-    return render(request, 'my template/admin_dashboard.html', {'products': products, 'users': users})
+    orders = Orders_Buying.objects.all().count()
+    return render(request, 'my template/admin_dashboard.html', {'products': products, 'users': users, 'orders': orders})
 
 def user_show(request):
     user = User.objects.all()
@@ -152,9 +157,14 @@ def admin_add_product(request):
         return render(request, 'my template/admin_add_product_form.html', {'form3': form3})
 
 def admin_my_products(request):
-    p = Profile.objects.get(user=request.user)
-    m = Products_Selling.objects.filter(Seller=p)
+    m = Products_Selling.objects.all()
     return render(request, 'my template/admin_my_products.html', {'m': m})
+
+@login_required
+def view_my_products(request):
+    p = Profile.objects.get(user=request.user)
+    m = Products_Selling.objects.filter(seller=p)
+    return render(request, 'my template/login_my_products.html', {'m': m, 'profile': p})
 
 @login_required
 def my_profile(request):
@@ -245,10 +255,14 @@ def login_dashboard(request):
     cn_count = commonNotification.objects.all().count()
 
     n = Notification.objects.filter(product__seller__user = request.user)
+    n_count = n.count()
+
+    l = Leasing_Notification.objects.filter(product__leaser__user = request.user)
+    l_c = l.count()
 
     #Notification.seller.Products_Selling.Seller.user.username
 
-    return render(request, 'my template/login_dashboard.html', {'profile': profile, 'cn': cn, 'cn_count': cn_count, 'n': n})
+    return render(request, 'my template/login_dashboard.html', {'profile': profile, 'cn': cn, 'cn_count': cn_count, 'n': n, 'n_count': n_count, 'l_c': l_c})
 
 def admin_invoices_show(request):
     order = Orders_Buying.objects.all()
@@ -268,7 +282,7 @@ def admin_view_invoice(request, iid):
 def my_invoices_show(request):
     p = Profile.objects.get(user=request.user)
     order = Orders_Buying.objects.filter(buyer=p)
-    return render(request, 'my template/login_my_invoices_show.html', {'order': order})
+    return render(request, 'my template/login_my_invoices_show.html', {'order': order, 'profile': p})
 
 @login_required
 def login_view_invoice(request, iid):
@@ -278,3 +292,46 @@ def login_view_invoice(request, iid):
     profile  = Profile.objects.get(user = request.user)
 
     return render(request, 'my template/login_view_invoice.html', {'order': order, 'seller': seller, 'seller_profile': seller_profile, 'profile': profile})
+
+@login_required
+def myorder(request):
+    p = Profile.objects.get(user=request.user)
+    m = Orders_Buying.objects.filter(buyer=p)
+    n = Orders_Leasing.objects.filter(buyer=p)
+    return render(request, 'my template/login_my_orders.html', {'m': m,'n':n})
+
+@login_required
+def cancellation(request,pid,n):
+    if n=='0':
+        o=Orders_Buying.objects.get(pk=pid)
+        p = o.products_selling
+        p.available=True
+        p.save()
+        message=" The order for "+str(o.products_selling.pname)+" has been cancelled by "+str(o.buyer.user.username)+" !!"
+        Notification.objects.create(
+            message=message,
+            product=p,
+        )
+        o.delete()
+    else:
+        o = Orders_Leasing.objects.get(pk=pid)
+        p = o.products_leasing
+        p.available = True
+        p.save()
+        message = " The order for " + str(o.products_leasing.pname1) + " has been cancelled by " + str(
+            o.buyer.user.username) + " !!"
+        Leasing_Notification.objects.create(
+            message=message,
+            product=p,
+        )
+        o.delete()
+    return redirect('my-orders-show')
+
+def admin_requests_show(request):
+    r_requests = Request_table.objects.all()
+    return render(request, 'my template/admin_requests_show.html', {'r_requests': r_requests})
+
+def admin_delete_request(request,rid):
+    r = Request_table.objects.get(pk=rid)
+    r.delete()
+    return redirect('admin-requests-show')

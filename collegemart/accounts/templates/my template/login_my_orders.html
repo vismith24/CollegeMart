@@ -1,0 +1,90 @@
+{% extends 'my template/login_base.html' %}
+
+{% block body %}
+        <div class="content">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" style="background-color: #fbb710; color: white">
+                                <strong class="card-title">Orders Table</strong>
+                            </div>
+                            <div class="card-body">
+                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Cancellation</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in m %}
+                                    <tr>
+                                        <td>{{ item.products_selling.pname }}</td>
+                                        <td>{{ item.products_selling.description }}</td>
+                                        <td>{{ item.products_selling.category }}</td>
+                                        <td><button type="button" class="btn btn-danger" style="background-color: red" data-toggle="modal" data-target="#myModal1">Cancel <i class="fa fa-ban"></i></button></td>
+                                            <div class="modal fade" id="myModal1" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                  <!-- Modal content-->
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                      <h4 class="modal-title">Confirmation</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <p>Are you sure you want to cancel the order?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" style="background-color: whitesmoke" data-dismiss="modal">Cancel</button>
+                                                        <a href="{% url 'my-orders-show' item.pk 0 %}"><button style="color:white">Delete order</button></a>
+                                                    </div>
+                                                  </div>
+
+                                                </div>
+                                              </div>
+                                    </tr>
+                                    {% endfor %}
+                                    {% for item in n %}
+                                    <tr>
+                                        <td>{{ item.products_leasing.pname1 }}</td>
+                                        <td>{{ item.products_leasing.description1 }}</td>
+                                        <td>{{ item.products_leasing.category1 }}</td>
+                                        <td><button type="button" class="btn btn-danger" style="background-color: red" data-toggle="modal" data-target="#myModal1">Cancel <i class="fa fa-ban"></i></button></td>
+                                            <div class="modal fade" id="myModal1" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                  <!-- Modal content-->
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                      <h4 class="modal-title">Confirmation</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      <p>Are you sure you want to cancel the order?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <button type="button" style="background-color: whitesmoke" data-dismiss="modal">Cancel</button>
+                                                        <a href="{% url 'my-orders-show' item.pk 1 %}"><button style="color:white">Delete order</button></a>
+                                                    </div>
+                                                  </div>
+
+                                                </div>
+                                              </div>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div><!-- .animated -->
+        </div>
+{% endblock %}

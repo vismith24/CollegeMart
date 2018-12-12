@@ -41,21 +41,17 @@
                     </li>
                     <li class="menu-title" style="background-color: #fbb710; color: white; font-size: large">Sales </li><!-- /.menu-title -->
                     <li>
-                        <a href="#"> <i class="menu-icon ti ti-location-arrow"></i>Post a Product</a>
+                        <a href="{% url 'seller:saleform.home' %}"> <i class="menu-icon ti ti-location-arrow"></i>Post a Product</a>
                     </li>
                     <li>
-                        <a href="#"> <i class="menu-icon fa fa-table"></i>My Products</a>
+                        <a href="{% url 'view-my-products' %}"> <i class="menu-icon fa fa-table"></i>My Products</a>
                     </li>
-
-
 
                     <li class="menu-title" style="background-color: #fbb710; color: white; font-size: large" >Orders </li><!-- /.menu-title -->
 
                     <li>
-                        <a href=""> <i class="menu-icon fa fa-table"></i>My Orders</a>
+                        <a href="{% url 'my-orders-show' %}"> <i class="menu-icon fa fa-table"></i>My Orders</a>
                     </li>
-
-
 
                     <li class="menu-title" style="background-color: #fbb710; color: white; font-size: large">Invoices </li><!-- /.menu-title -->
 
@@ -95,24 +91,6 @@
                                 <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                             </form>
                         </div>
-                    <a href="{% url 'cart:cart_detail' %}">
-                    <div class="dropdown for-notification">
-                            <a href="{% url 'cart:cart_detail' %}"><button class="btn btn-secondary dropdown-toggle" type="submit" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="ti ti-shopping-cart"></i>
-                                <span class="count bg-primary">3</span>
-                            </button></a>
-                    </div>
-                    </a>
-                    <a href="{% url 'cart:cart_detail' %}"></a>
-                        <a href="{% url 'dashboard' %}">
-                        <div class="dropdown for notification">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bell"></i>  
-                                <span class="count bg-danger">7</span>
-                            </button>
-                        </div>
-                        </a>
-                        <a href="{% url 'dashboard' %}"></a>
                         <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src='{{ profile.photo.url }}' alt="User Avatar" style="height: 40px;width: 40px">

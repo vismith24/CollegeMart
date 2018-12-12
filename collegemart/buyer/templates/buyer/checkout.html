@@ -21,7 +21,8 @@
                                 <li><span>Delivery:</span> <span>Free</span></li>
                                 <li><span>Total:</span> <span>₹{{ cart.get_total_price }}</span></li>
                             </ul>
-
+                            <form method='POST' action="{% url 'buyer:order' %}">
+                            {% csrf_token %}
                             <div class="payment-method">
                                 <!-- Cash on delivery -->
                                 <div class="custom-control custom-checkbox mr-sm-2">
@@ -36,7 +37,7 @@
                             </div>
 
                             <div class="cart-btn mt-100">
-                                <a href="{% url 'buyer:order' %}" class="btn amado-btn w-100">Pay Now</a>
+                                <a href="" class="btn amado-btn w-100"><button type="submit">Pay Now</button></a>
                             </div>
                         </div>
                     </div>

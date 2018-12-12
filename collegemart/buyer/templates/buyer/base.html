@@ -16,11 +16,12 @@
     <link rel="stylesheet" href="{% static 'css/core-style.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    {% block ascript %}
+    {% endblock %}
 
 </head>
 
-<body>
+<body onload="reload()">
     <!-- Search Wrapper Area Start -->
     <div class="search-wrapper section-padding-100">
         <div class="search-close">
@@ -73,7 +74,7 @@
                     <li><a href="{% url 'buyer:shop' 0 %}">Shop</a></li>
                     {% if user.is_authenticated %}
                     <li class=""><a href="{% url 'my-profile' %}">View Profile</a></li>
-                    <li class=""><a href="{% url 'password_reset' %}">Change password</a></li>
+                    <li clas=""><a href="{% url 'change_password' %}">Change Password</a></li>
                     <li class=""><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
                     <li class=""><a href="{% url 'login' %}">Login</a></li>
@@ -135,6 +136,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'buyer:checkout' %}">Checkout</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'feedback:home' %}">Feedback</a>
                                         </li>
                                     </ul>
                                 </div>

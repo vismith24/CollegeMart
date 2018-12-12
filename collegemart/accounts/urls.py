@@ -42,5 +42,10 @@ urlpatterns = [
     path('admin/view_invoice/<iid>', views.admin_view_invoice, name='admin-view-invoice'),
     path('view_my_invoice/', views.my_invoices_show, name='my-invoices'),
     path('view_invoice/<iid>', views.login_view_invoice, name='view-my-invoice'),
+    path('my_orders/',views.myorder, name='my-orders-show'),
+    path('my_orders/<pid><n>', views.cancellation, name='my-orders-show'),
+    path('admin/requests_show/', views.admin_requests_show, name='admin-requests-show'),
+    path('admin/requests_show/<rid>', views.admin_delete_request, name='admin-delete-request'),
+    path('view_my_products/', views.view_my_products, name="view-my-products"),
 ]
 

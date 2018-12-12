@@ -81,17 +81,13 @@
                     <li>
                         <a href="{% url 'view-invoice-select' %}"> <i class="menu-icon fa fa-table"></i>All Invoices</a>
                     </li>
-                    
-                
                     <li class="menu-title"style="background-color: #fbb710;color: white;font-size: large;">Promotions </li><!-- /.menu-title -->
 
                     <li>
-                        <a href="#"> <i class="menu-icon ti-email"></i>Requests</a>
-                    </li>
-                    <li>
-                        <a href="#"> <i class="menu-icon ti-email"></i>New Products</a>
+                        <a href="{% url 'admin-requests-show' %}"> <i class="menu-icon ti-email"></i>Requests</a>
                     </li>
                    
+                    
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -122,7 +118,7 @@
 
                     <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="{% static 'images/demo_admin.jpg' %}" alt="User Avatar">
+                            <img class="user-avatar rounded-circle" src="{% static 'images/admin-png-7.jpg' %}" alt="User Avatar">
                         </a>
 
                         <div class="user-menu dropdown-menu">
