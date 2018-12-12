@@ -17,7 +17,6 @@ from .models import PaytmHistory
 def home(request):
     return HttpResponse("<html><a href='"+ settings.HOST_URL +"/paytm/payment'>PayNow</html>")
 
-@csrf_exempt
 def payment(request):
     cart = Cart(request)
     bill_amount = cart.get_total_price()
@@ -34,7 +33,7 @@ def payment(request):
             p = Products_Leasing.objects.filter(id = item['lproduct'].id)[0]
             p.available = False
             p.save()
-    cart.cart.clear()
+    cart.clear()
     MERCHANT_KEY = settings.PAYTM_MERCHANT_KEY
     MERCHANT_ID = settings.PAYTM_MERCHANT_ID
     CALLBACK_URL = settings.HOST_URL + settings.PAYTM_CALLBACK_URL
@@ -53,7 +52,7 @@ def payment(request):
                 }
         param_dict = data_dict
         param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(data_dict, MERCHANT_KEY)
-        print(param_dict)
+        print('a', param_dict)
         return render(request,"paytm/payment.html",{'paytmdict':param_dict})
     return HttpResponse("Bill Amount Could not find. ?bill_amount=10")
 
@@ -64,14 +63,18 @@ def response(request):
         data_dict = {}
         for key in request.POST:
             data_dict[key] = request.POST[key]
+        print('b', data_dict)
         verify = Checksum.verify_checksum(data_dict, MERCHANT_KEY, data_dict['CHECKSUMHASH'])
         if verify:
+            print(verify)
             PaytmHistory.objects.create(**data_dict)
             print(data_dict)
-            return render(request,"paytm/response.html",{"paytm":data_dict})
+            return render(request, "paytm/response.html", {"paytm":data_dict})
         else:
+            print("no")
             return HttpResponse("checksum verify failed")
     return HttpResponse(status=200)
 
 def status(request):
+    print("Hi")
     return render(request, 'paytm/status.html')

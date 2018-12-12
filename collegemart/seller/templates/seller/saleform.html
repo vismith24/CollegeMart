@@ -27,6 +27,8 @@
             $("#id_category1").addClass("form-control mb-4 transparent-input");
             $('#id_image1').addClass('form-control-file transparent-input');
             $("#id_description1").addClass("form-control mb-4 transparent-input").attr("placeholder", "Describe the product");
+            $("#id_price1").addClass("form-control mb-4 transparent-input").attr("placeholder", "Price of the product");
+
         });
 
     </script>
@@ -126,6 +128,12 @@
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Amount :</label></div>
                                         <div class="col-12 col-md-9">
                                                 {{ form5.leasing_period }}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Amount :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form5.price1 }}
                                         </div>
                                     </div>
 

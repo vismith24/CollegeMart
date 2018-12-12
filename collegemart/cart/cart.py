@@ -18,7 +18,10 @@ class Cart(object):
         else:
             product_id = 'L' + str(product.id)
         if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': 0, 'price': str(product.price), 'rec': str(rec), 'prod_id': str(product.id)}
+            if rec == 0:
+                self.cart[product_id] = {'quantity': 0, 'price': str(product.price), 'rec': str(rec), 'prod_id': str(product.id)}
+            else:
+                self.cart[product_id] = {'quantity': 0, 'price': str(product.price1), 'rec': str(rec), 'prod_id': str(product.id)}
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:

@@ -11,7 +11,14 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mt-50">
                                 <li class="breadcrumb-item"><a href="{% url 'buyer:home' %}">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{% url 'buyer:shop-category' product.category.pk rec %}">{{ product.category.name }}</a></li>
+                                <li class="breadcrumb-item">
+                                {% if rec == 0 %}
+                                <a href="{% url 'buyer:shop-category' product.category.pk rec %}">
+                                    {{ product.category.name }}</a></li>
+                                {% else %}
+                                <a href="{% url 'buyer:shop-category' product.category1.pk rec %}">
+                                    {{ product.category1.name }}</a></li>
+                                {% endif %}
                                 <li class="breadcrumb-item active" aria-current="page">{{ product.pname }}</li>
                             </ol>
                         </nav>
@@ -35,7 +42,11 @@
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
                                         <a class="gallery_img" href="{% static 'img/product-img/pro-big-1.jpg' %}">
+                                            {% if rec == 0 %}
                                             <img class="d-block w-100" src="{{ product.image.url }}" alt="First slide">
+                                            {% else %}
+                                            <img class="d-block w-100" src="{{ product.image1.url }}" alt="First slide">
+                                            {% endif %}
                                         </a>
                                     </div>
                                     <div class="carousel-item">
@@ -62,8 +73,9 @@
                             <!-- Product Meta Data -->
                             <div class="product-meta-data">
                                 <div class="line"></div>
+                                {% if rec == 0 %}
                                 <p class="product-price">₹{{ product.price }}</p>
-                                <a href="product-details.html">
+                                <a href="">
                                     <h6>{{ product.pname }}</h6>
                                 </a>
                                 <!-- Ratings & Review -->
@@ -103,6 +115,49 @@
                                 <button type="submit" name="addtocart" value="5" class="btn amado-btn">Add to cart</button>
                             </form>
 
+                            {% else %}
+
+                            <p class="product-price">₹{{ product.price1 }}</p>
+                                <a href="">
+                                    <h6>{{ product.pname1 }}</h6>
+                                </a>
+                                <!-- Ratings & Review -->
+                                <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="review">
+                                        <a href="#">Write A Review</a>
+                                    </div>
+                                </div>
+                                <!-- Avaiable -->
+                                <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
+                            </div>
+
+                            <div class="short_overview my-5">
+                                <p>{{ product.description1 }}</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?</p>
+                            </div>
+
+                            <!-- Add to Cart Form -->
+                            <form action="{% url 'cart:cart_add' product.pk rec %}" class="cart clearfix" method="post">
+                                {% csrf_token %}
+                                <div class="cart-btn d-flex mb-50">
+                                    <p>Qty</p>
+                                    <div class="quantity">
+                                        <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                                        <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
+                                        <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
+                                    </div>
+                                    {{ cart_product_form|crispy }}
+                                </div>
+                                <button type="submit" name="addtocart" value="5" class="btn amado-btn">Add to cart</button>
+                            </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

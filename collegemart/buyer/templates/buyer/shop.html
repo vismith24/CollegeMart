@@ -87,9 +87,9 @@
                 </div>
 
                 <div class="row">
-
+                    {% if rec == 0 %}
                     <!-- Single Product Area -->
-                    {% for product in products %}
+                        {% for product in products %}
                     <div class="col-12 col-sm-6 col-md-12 col-xl-6">
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
@@ -119,14 +119,52 @@
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     </div>
                                     <div class="cart">
-                                        <a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>
+                                        <a href="{% url 'cart:cart_add' product.pk rec %}" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        {% for product in products %}
+                    <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+                        <div class="single-product-wrapper">
+                            <!-- Product Image -->
+                            <div class="product-img">
+                                <img src="{{ product.image1.url }}" alt="" style="width:500px; height:500px;">
+                                <!-- Hover Thumb -->
+                                <img class="hover-img" src="{% static 'img/product-img/product2.jpg' %}" alt="" style="width:500px; height:500px;">
+                            </div>
 
+                            <!-- Product Description -->
+                            <div class="product-description d-flex align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                    <div class="line"></div>
+                                    <p class="product-price">{{ product.price1 }}</p>
+                                    <a href="{% url 'buyer:shop-item' product.pk rec %}">
+                                        <h6>{{ product.pname1 }}</h6>
+                                    </a>
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="cart">
+                                        <a href="{% url 'cart:cart_add' product.pk rec %}" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        {% endfor %}
+                    {% endif %}
                 <div class="row">
                     <div class="col-12">
                         <!-- Pagination -->

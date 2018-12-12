@@ -149,7 +149,7 @@ CART_SESSION_ID = 'cart'
 PAYTM_MERCHANT_KEY = ""
 PAYTM_MERCHANT_ID = ""
 HOST_URL = "http://localhost:8000"
-PAYTM_CALLBACK_URL = "payment/response/"
+PAYTM_CALLBACK_URL = "/payment/response/"
 
 if DEBUG:
     PAYTM_MERCHANT_ID = "xNaORM51969003078152"
