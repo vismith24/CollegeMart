@@ -20,19 +20,6 @@ def home(request):
 def payment(request):
     cart = Cart(request)
     bill_amount = cart.get_total_price()
-    profile = Profile.objects.get(user=request.user)
-    for item in cart:
-        rec = int(item['rec'])
-        if rec == 0:
-            Orders_Buying.objects.create(products_selling = item['sproduct'], buyer = profile)
-            p = Products_Selling.objects.filter(id = item['sproduct'].id)[0]
-            p.available = False
-            p.save()
-        else:
-            Orders_Leasing.objects.create(products_selling = item['lproduct'], buyer = profile)
-            p = Products_Leasing.objects.filter(id = item['lproduct'].id)[0]
-            p.available = False
-            p.save()
     cart.clear()
     MERCHANT_KEY = settings.PAYTM_MERCHANT_KEY
     MERCHANT_ID = settings.PAYTM_MERCHANT_ID
@@ -76,5 +63,9 @@ def response(request):
     return HttpResponse(status=200)
 
 def status(request):
-    print("Hi")
-    return render(request, 'paytm/status.html')
+    data_dict = {}
+    for key in request.POST:
+        data_dict[key] = request.POST[key]
+    print(data_dict)
+    context = {'resultDict': data_dict}
+    return render(request, 'paytm/status.html', context )
