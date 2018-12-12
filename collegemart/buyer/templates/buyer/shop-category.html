@@ -1,86 +1,152 @@
-{% extends "buyer/basenav.html" %}
+{% extends "buyer/base.html" %}
 {% load static %}
 {% block content %}
 
-    <div class="site-section">
-      <div class="container">
+            <div class="amado_product_area section-padding-100">
+            <div class="container-fluid">
 
-        <div class="row mb-5">
-          <div class="col-md-9 order-2">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product-topbar d-xl-flex align-items-end justify-content-between">
+                            <!-- Total Products -->
+                            <div class="total-products">
+                                <p>Showing 12 items</p>
+                                <div class="view d-flex">
+                                    <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <ul class="navbar-nav">
+                                <li class="nav-item" style="margin-left: 7px;">
+                                    <form action="{% url 'seller:saleform.home' %}">
+                                        <button class="btn" type="submit" value="products to be sold" style="border-radius:0px ">Post AD for sale</button>
+                                    </form>
+                                </li>
+                            </ul>
+                                                    <!-- Sorting -->
+                            <div class="product-sorting d-flex">
+                                <div class="sort-by-date d-flex align-items-center mr-15">
+                                    <p>Sort by</p>
+                                    <form method="post">
+                                    {% csrf_token %}
+                                        <select name="select" id="sortBy">
+                                            <option value="1">Date</option>
+                                            <option value="2">Newest</option>
+                                            <option value="3">Popular</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="prodRow">
+                    {% if rec == 0 %}
+                    <!-- Single Product Area -->
+                        {% for product in products %}
+                    <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+                        <div class="single-product-wrapper">
+                            <!-- Product Image -->
+                            <div class="product-img">
+                                <a href="{% url 'buyer:shop-item' product.pk rec %}"><img src="{{ product.image.url }}" alt="" style="width:500px; height:500px;"></a>
+                                <!-- Hover Thumb -->
+                                <div class="hover-content">
+                                    <div class="line"></div>
+                                </div>
+                            </div>
 
-            <div class="row">
-
-              <div class="col-md-12 mb-5">
-                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
-                <div class="d-flex">
-                  <div class="dropdown mr-1 ml-md-auto">
-                    <button type ="button" class="btn btn-secondary btn-sm dropdown-toggle" id ="dropdownMenuOffset"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Categories
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                        {% for c in categories %}
-                      <a class="dropdown-item" href="{% url 'buyer:shop-category' c.pk %}">{{c.name}}</a>
+                            <!-- Product Description -->
+                            <div class="product-description d-flex align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                    <div class="line"></div>
+                                    <p class="product-price">₹{{ product.price }}</p>
+                                    <a href="{% url 'buyer:shop-item' product.pk rec %}">
+                                        <h6>{{ product.pname }}</h6>
+                                    </a>
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="cart">
+                                        <a href="{% url 'cart:cart_add' product.pk rec %}" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="{% static 'img/core-img/cart.png' %}" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         {% endfor %}
-                    </div>
-                  </div>
+                    {% else %}
+                        {% for product in products %}
+                    <div class="col-12 col-sm-6 col-md-12 col-xl-6">
+                        <div class="single-product-wrapper">
+                            <!-- Product Image -->
+                            <div class="product-img">
+                                <a href="{% url 'buyer:shop-item' product.pk rec %}"><img src="{{ product.image1.url }}" alt="" style="width:500px; height:500px;"></a>
+                                <!-- Hover Thumb -->
+                                <div class="hover-content">
+                                    <div class="line"></div>
+                                </div>
+                            </div>
 
-                  <div class="dropdown mr-1 ml-md-auto">
-                    <button type ="button" class="btn btn-secondary btn-sm dropdown-toggle" id ="dropdownMenuOffset"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Sort By Price
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                      <a class="dropdown-item" href="#">Low to High</a>
-                      <a class="dropdown-item" href="#">High to Low</a>
-
+                            <!-- Product Description -->
+                            <div class="product-description d-flex align-items-center justify-content-between">
+                                <!-- Product Meta Data -->
+                                <div class="product-meta-data">
+                                    <div class="line"></div>
+                                    <p class="product-price">₹{{ product.price1 }}</p>
+                                    <a href="{% url 'buyer:shop-item' product.pk rec %}">
+                                        <h6>{{ product.pname1 }}</h6>
+                                    </a>
+                                </div>
+                                <!-- Ratings & Cart -->
+                                <div class="ratings-cart text-right">
+                                    <div class="ratings">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="cart">
+                                        <a href="{% url 'cart:cart_add' product.pk rec %}" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="img/core-img/cart.png" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                        {% endfor %}
+                    {% endif %}
+
+
             </div>
 
+
+<div class="row">
+                    <div class="col-12">
+                        <!-- Pagination -->
+                        <nav aria-label="navigation">
+                            <ul class="pagination justify-content-end mt-50">
+                                {% if products.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ contacts.previous_page_number }}">Previous</a></li>
+                                {% endif %}
+                                <li class="page-item active"><a class="page-link" href="#">{{ products.number }}</a></li>
+                                {% if products.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Next</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ products.paginator.num_pages }}">Last</a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-              </div>
-
-
-            <div class="row mb-5">
-              {% for item in products %}
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                <div class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="{% url 'buyer:shop-item' item.pk %}"><img src='{{ item.image.url }}' alt="Image placeholder" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="{% url 'buyer:shop-item' item.pk %}">{{item.pname}}</a></h3>
-                    <p class="mb-0">{{item.description}}</p>
-                    <p class="text-primary font-weight-bold">{{item.price}}</p>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-
-
             </div>
-
-
-<div class="pagination">
-    <span class="step-links">
-        {% if products.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ contacts.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ products.number }} of {{ products.paginator.num_pages }}.
-        </span>
-
-        {% if products.has_next %}
-            <a href="?page={{ products.next_page_number }}">next</a>
-            <a href="?page={{ products.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
-
-          </div>
         </div>
-      </div>
+    </div>
     </div>
 {% endblock content %}

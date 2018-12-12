@@ -130,7 +130,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'collegemart_ase1@gmail.com'
+EMAIL_HOST_USER = 'collegemart.ase1@gmail.com'
 EMAIL_HOST_PASSWORD = "ase1proj"
 
 
@@ -152,7 +152,7 @@ HOST_URL = "http://localhost:8000"
 PAYTM_CALLBACK_URL = "/payment/response/"
 
 if DEBUG:
-    PAYTM_MERCHANT_ID = ""
-    PAYTM_MERCHANT_KEY = ""
+    PAYTM_MERCHANT_ID = "xNaORM51969003078152"
+    PAYTM_MERCHANT_KEY = "T1GsewDpWX%z3BdZ"
     PAYTM_WEBSITE = 'WEBSTAGING'
     HOST_URL = 'http://localhost:8000'

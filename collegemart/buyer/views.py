@@ -13,11 +13,13 @@ from django.contrib.auth.models import User
 from InvoiceGenerator.create import create_invoice
 from collegemart.settings import MEDIA_ROOT
 from accounts.models import Profile
-from .models import Orders_Buying
+from .models import Orders_Buying, Orders_Leasing
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
+
+import json
 
 '''
 def index(request):
@@ -44,7 +46,7 @@ def shop_category(request, cid, rec=0):
     if rec == 0:
         products_list = Products_Selling.objects.filter(category=category, available=True)
     else:
-        products_list = Products_Leasing.objects.filter(category=category, available=True)
+        products_list = Products_Leasing.objects.filter(category1=category, available=True)
     paginator = Paginator(products_list, 12)  # Show 12 products per page
     page = request.GET.get('page')
     products = paginator.get_page(page)
@@ -111,7 +113,7 @@ def order_create(request):
             p.available = False
             p.save()
         else:
-            Orders_Leasing.objects.create(products_selling = item['lproduct'], buyer = profile)
+            Orders_Leasing.objects.create(products_leasing = item['lproduct'], buyer = profile)
             p = Products_Leasing.objects.filter(id = item['lproduct'].id)[0]
             p.available = False
             p.save()
@@ -140,3 +142,28 @@ def order_cancellation(request, pid):
     )
     o.delete()
     return redirect('buyer:home')
+
+def sort_products(request):
+    if request.method == 'GET':
+        sort_text = request.POST.get('filter')
+        response_data = {}
+        
+        if sort_text == '1':
+            p = Products_Selling.objects.filter().order_by('price')
+        else:
+            p = Products_Selling.objects.filter().order_by('-price')
+            v = list(p.values())
+            k = []
+            count = 0
+            for c in v:
+                k.append({})
+                for key,value in c.items():
+                    if key == 'id' or key == 'pname'or key == 'rating':
+                        k[count][key] = value
+                    elif key == 'price':
+                        k[count][key] = str(value)
+                count += 1
+        response_data['products'] = k
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
+    else:
+        return HttpResponse(json.dumps({"nothing to see": "this isn't happening"}), content_type="application/json")

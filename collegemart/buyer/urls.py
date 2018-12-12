@@ -19,4 +19,5 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('order/', views.order_create, name='order'),
     path('order/cancel/<pid>', views.order_cancellation, name='order-cancellation'),
+    path('shop/sort_product', views.sort_products, name="sort_product")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
