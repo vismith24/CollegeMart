@@ -12,6 +12,7 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('payment/', include('paytm.urls')),
     path('shop/<int:rec>', views.shop_list, name='shop'),
+    path('shop/<int:rec>/<int:cid>/<int:sid>', views.shop_filters, name='shop-filters'),
     path('shop/<int:cid>/<int:rec>', views.shop_category, name='shop-category'),
     path('shop/item/<int:pid>/<int:rec>', views.shop_item, name='shop-item'),
     path('', views.home, name='home'),

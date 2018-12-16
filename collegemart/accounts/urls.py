@@ -47,5 +47,8 @@ urlpatterns = [
     path('admin/requests_show/', views.admin_requests_show, name='admin-requests-show'),
     path('admin/requests_show/<rid>', views.admin_delete_request, name='admin-delete-request'),
     path('view_my_products/', views.view_my_products, name="view-my-products"),
+    path('admin/my_profile/', views.admin_profile, name='admin-profile'),
+    path('admin/edit_profile/', views.admin_edit_profile, name='admin-edit-profile'),
+    path('send_invoice/<oid>', views.Send_Invoice, name='send-invoice-to')
 ]
 

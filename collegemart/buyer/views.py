@@ -30,14 +30,28 @@ def shop_list(request, rec=0):
     cart = Cart(request)
     categories = Category.objects.all()
     if rec == 0:
-        products = Products_Selling.objects.filter(available=True)
+        products = Products_Selling.objects.filter(available=True).order_by('price')
     else:
-        products = Products_Leasing.objects.filter(available=True)
+        products = Products_Leasing.objects.filter(available=True).order_by('leasing_period')
     paginator = Paginator(products, 12)# Show 12 products per page
     page = request.GET.get('page')
     products = paginator.get_page(page)
     context = {'products':products, 'categories':categories, 'rec':rec, 'cart': cart}
     return render(request, "buyer/shop.html", context)
+
+def shop_filters(request, rec,cid, sid=1):
+    category = Category.objects.get(pk=cid)
+    c = Category.objects.all()
+    products_list = Products_Selling.objects.filter(category=category)
+    if(sid==1):
+        products_list = Products_Selling.objects.filter(category=category).order_by('price')
+    elif(sid==2):
+        products_list = Products_Selling.objects.filter(category=category).order_by('-price')
+    paginator = Paginator(products_list, 12)  # Show 12 products per page
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+    context = {'products': products, 'categories': c, 'cid':cid, 'rec': 0, 'category': category}
+    return render(request, "buyer/shop-category.html", context)
 
 def shop_category(request, cid, rec=0):
     cart = Cart(request)
@@ -50,9 +64,10 @@ def shop_category(request, cid, rec=0):
     paginator = Paginator(products_list, 12)  # Show 12 products per page
     page = request.GET.get('page')
     products = paginator.get_page(page)
-    context = {'products': products , 'categories': categories, 'rec': rec, 'cart': cart}
+    context = {'products': products , 'categories': categories,'category': category, 'rec': rec, 'cart': cart}
     return render(request, "buyer/shop-category.html", context)
 
+@login_required
 def shop_item(request, pid, rec):
     cart = Cart(request)
     if rec == 0:
@@ -74,10 +89,12 @@ def home(request):
 def about(request):
     return render(request, 'buyer/about.html', {'title': 'About'})
 
+@login_required
 def checkout(request):
     cart = Cart(request)
     return render(request, 'buyer/checkout.html', {'cart': cart})
 
+@login_required
 def search(request):
     if request.method == 'GET':
         search_query = request.GET.get('search_box',None)
@@ -101,37 +118,68 @@ def search(request):
                 return render(request, 'buyer/search.html', {'products': prod_s})
             else:
                 return redirect('seller:request')
+        return redirect('buyer:home')
 
+@login_required
 def order_create(request):
     if request.method == 'POST':
         mode = request.POST['mode']
-        cart = Cart(request)
-        profile = Profile.objects.get(user=request.user)
-        for item in cart:
-            rec = int(item['rec'])
-            if rec == 0:
-                order = Orders_Buying.objects.create(products_selling = item['sproduct'], buyer = profile, payment_type=mode)
-                p = Products_Selling.objects.filter(id = item['sproduct'].id)[0]
-                p.available = False
-                p.save()
-            else:
-                Orders_Leasing.objects.create(products_leasing = item['lproduct'], buyer = profile, payment_type=mode)
-                p = Products_Leasing.objects.filter(id = item['lproduct'].id)[0]
-                p.available = False
-                p.save()
-        profile = Profile.objects.get(user = request.user)
-        create_invoice(profile, order)
-        current_site = get_current_site(request)
-        mail_subject = 'Your Order Invoice.'
-        message = render_to_string('buyer/order_email.html')
-        to_email = request.user.email
-        email = EmailMessage(
-                    mail_subject, message, to=[to_email]
-        )
-        email.attach_file(MEDIA_ROOT+'/orders/'+str(order.id)+".pdf")
-        email.send()
-        return redirect('paytm:payment')
+        if mode == '1':
+            cart = Cart(request)
+            profile = Profile.objects.get(user=request.user)
+            for item in cart:
+                rec = int(item['rec'])
+                if rec == 0:
+                    order = Orders_Buying.objects.create(products_selling = item['sproduct'], buyer = profile, payment_type=mode)
+                    p = Products_Selling.objects.filter(id = item['sproduct'].id)[0]
+                    p.available = False
+                    p.save()
+                else:
+                    Orders_Leasing.objects.create(products_leasing = item['lproduct'], buyer = profile, payment_type=mode)
+                    p = Products_Leasing.objects.filter(id = item['lproduct'].id)[0]
+                    p.available = False
+                    p.save()
+                profile = Profile.objects.get(user = request.user)
+                create_invoice(profile, order)
+                current_site = get_current_site(request)
+                mail_subject = 'Your Order Invoice.'
+                message = render_to_string('buyer/order_email.html')
+                to_email = request.user.email
+                email = EmailMessage(
+                            mail_subject, message, to=[to_email]
+                )
+                email.attach_file(MEDIA_ROOT+'/orders/'+str(order.id)+".pdf")
+                email.send()
+            return redirect('buyer:home')
+        else:
+            cart = Cart(request)
+            profile = Profile.objects.get(user=request.user)
+            for item in cart:
+                rec = int(item['rec'])
+                if rec == 0:
+                    order = Orders_Buying.objects.create(products_selling = item['sproduct'], buyer = profile, payment_type=mode)
+                    p = Products_Selling.objects.filter(id = item['sproduct'].id)[0]
+                    p.available = False
+                    p.save()
+                else:
+                    Orders_Leasing.objects.create(products_leasing = item['lproduct'], buyer = profile, payment_type=mode)
+                    p = Products_Leasing.objects.filter(id = item['lproduct'].id)[0]
+                    p.available = False
+                    p.save()
+                profile = Profile.objects.get(user = request.user)
+                create_invoice(profile, order)
+                current_site = get_current_site(request)
+                mail_subject = 'Your Order Invoice.'
+                message = render_to_string('buyer/order_email.html')
+                to_email = request.user.email
+                email = EmailMessage(
+                            mail_subject, message, to=[to_email]
+                )
+                email.attach_file(MEDIA_ROOT+'/orders/'+str(order.id)+".pdf")
+                email.send()
+            return redirect('paytm:payment')
 
+@login_required
 def order_cancellation(request, pid):
     o=Orders_Buying.objects.get(pk=pid)
     p = o.products_selling

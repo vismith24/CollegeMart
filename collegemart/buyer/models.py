@@ -48,7 +48,7 @@ def sendnotification(sender,instance,created,**kwargs):
 
 
 @receiver(post_save,sender=Orders_Leasing)
-def sendnotification(sender,instance,created,**kwargs):
+def sendnotification2(sender,instance,created,**kwargs):
    if created:
        instance.products_leasing.available=False
        instance.products_leasing.save()

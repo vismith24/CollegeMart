@@ -74,7 +74,7 @@ def deletion(request,pid,n='0'):
     else:
         a = Products_Leasing.objects.filter(pk=pid)
         a.delete()
-    return redirect('my-profile')
+    return redirect('view-my-products')
 
 def Request(request):
     p = Profile.objects.get(user=request.user)

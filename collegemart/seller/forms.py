@@ -11,7 +11,7 @@ class leaseform(forms.ModelForm):
 
     class Meta:
         model = Products_Leasing
-        fields = ('pname1', 'description1','image1','category1', 'leasing_period', 'price1')
+        fields = ('pname1', 'description1','image1','category1', 'leasing_period')
 
 class requestform(forms.ModelForm):
 

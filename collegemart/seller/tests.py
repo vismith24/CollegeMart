@@ -1,7 +1,7 @@
 # Create your tests here.
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django.test import TestCase
+from django.test import TestCase, Client
 from accounts.models import Profile
 from .models import Products_Selling,Products_Leasing,Category
 from .forms import *
@@ -38,3 +38,27 @@ class TestLease(TestCase):
     def test_whatever_creation(self):
         w = self.create_LP()
         self.assertTrue(isinstance(w, Products_Leasing))
+
+
+# Create your tests here.
+class saleformhomeUrlTesting(TestCase):
+    def setUp(self):
+        self.createduser = User.objects.create_user(username="testnormaluser", email="testnormaluser@ts.com",
+                                                    password="Test Hello World")
+        self.request_url="/seller/"
+    def test_seller(self):
+        self.client = Client()
+        response = self.client.get(self.request_url)
+        self.assertRedirects(response, expected_url="/accounts/login/?next=/seller/")
+
+class tosellUrlTesting(TestCase):
+    def setUp(self):
+        self.createduser = User.objects.create_user(username="testnormaluser", email="testnormaluser@ts.com",
+                                                    password="Test Hello World")
+        self.request_url = "/seller/sale/"
+
+    def test_seller(self):
+        self.client=Client()
+        response=self.client.get(self.request_url)
+        self.assertRedirects(response, expected_url="/accounts/login/?next="+self.request_url)
+    

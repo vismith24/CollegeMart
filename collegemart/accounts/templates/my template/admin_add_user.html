@@ -42,13 +42,11 @@
                                                 </div>
                                                 <div class="col col-md-9">
                                                 {{ field }}<br>
-                                                {% if field.help_text %}
-                                                    <small style="display: inline">{{ field.help_text }}</small>
-                                                {% endif %}
+
                                                 {% for error in field.errors %}
                                                     <p style="color: red">{{ error }}</p>
                                                 {% endfor %}
-                                                </div>
+                                                        </div>
                                             </div>
                                           </p>
                                         {% endfor %}

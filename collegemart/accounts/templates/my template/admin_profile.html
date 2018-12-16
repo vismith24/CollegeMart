@@ -1,0 +1,49 @@
+{% extends 'my template/demo_body.html' %}
+{% load static %}
+{% block table %}
+        <div class="content">
+            <div class="animated fadeIn">
+                    <div class="card">
+                        <div class="card-header" style="background-color: #fbb710; color: white">
+                            <strong class="card-title mb-3">Profile</strong>
+                            <a href="{% url 'admin-edit-profile' %}" class="pull-right">&nbsp;<i class="menu-icon ti-pencil"></i></a>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <aside class="profile-nav alt">
+                                <section class="card">
+
+
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <strong>Username:</strong> {{ u.username }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-envelope-o"></i> {{ u.email }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-phone"></i> 022-45632791
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Bio:</strong><br>
+                                            <p>
+                                            CollegeMart admin
+                                            </p>
+                                        </li>
+                                    </ul>
+
+                                </section>
+                            </aside>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body" style="height: 100%">
+                                    <img class="card-img-top" src='{% static "images/admin-png-7.jpg" %}' alt="Card image cap" style="height: 300px;width: 242px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

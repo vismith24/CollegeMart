@@ -1,7 +1,50 @@
 {% extends "buyer/base.html" %}
 {% load static %}
 {% block content %}
+<div class="shop_sidebar_area">
 
+            <!-- ##### Single Widget ##### -->
+            <div class="widget catagory mb-50">
+                <!-- Widget Title -->
+                <h6 class="widget-title mb-30">Categories</h6>
+
+                <!--  Catagories  -->
+                <div class="catagories-menu">
+                    <ul>
+                        {% for c in categories %}
+                        <li><a href="{% url 'buyer:shop-category' c.id 0%}">{{ c.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="widget catagory mb-50">
+                <!-- Widget Title -->
+                <h6 class="widget-title mb-30">Type of Order</h6>
+
+                <!--  Catagories  -->
+                <div class="catagories-menu">
+                    <ul>
+                        <li><a href="{% url 'buyer:shop' 0 %}">Selling</a></li>
+                        <li><a href="{% url 'buyer:shop' 1 %}">Leasing</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="widget catagory mb-50">
+                <!-- Widget Title -->
+                <h6 class="widget-title mb-30">Sorting</h6>
+
+                <!--  Catagories  -->
+                <div class="catagories-menu">
+                    <ul>
+                        <li><a href="{% url 'buyer:shop-filters' rec category.id 1 %}">Low to High</a></li>
+                        <li><a href="{% url 'buyer:shop-filters' rec category.id 2 %}">High to Low</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ##### Single Widget ##### -->
+        </div>
             <div class="amado_product_area section-padding-100">
             <div class="container-fluid">
 
@@ -23,19 +66,7 @@
                                 </li>
                             </ul>
                                                     <!-- Sorting -->
-                            <div class="product-sorting d-flex">
-                                <div class="sort-by-date d-flex align-items-center mr-15">
-                                    <p>Sort by</p>
-                                    <form method="post">
-                                    {% csrf_token %}
-                                        <select name="select" id="sortBy">
-                                            <option value="1">Date</option>
-                                            <option value="2">Newest</option>
-                                            <option value="3">Popular</option>
-                                        </select>
-                                    </form>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

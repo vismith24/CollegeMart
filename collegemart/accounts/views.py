@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -28,6 +28,7 @@ from buyer.models import Notification, Leasing_Notification
 from django.urls import reverse
 
 from cart.cart import Cart
+from collegemart.settings import MEDIA_ROOT
 # Create your views here.
 
 def signup(request):
@@ -50,9 +51,8 @@ def signup(request):
                 'token':account_activation_token.make_token(user),
             })
             to_email = form1.cleaned_data.get('email')
-            send_mail(mail_subject, message, "vismith.24.adappa@gmail.com", [to_email])
-            return HttpResponse('Please confirm your email address to complete the registration')
-        return HttpResponse(status=404)
+        send_mail(mail_subject, message, "collegemart.ase1@gmail.com", [to_email])    
+        return redirect('login')
     else:
         form1 = SignupForm()
         form2 = ProfileForm()
@@ -164,11 +164,14 @@ def admin_my_products(request):
 def view_my_products(request):
     p = Profile.objects.get(user=request.user)
     m = Products_Selling.objects.filter(seller=p)
-    return render(request, 'my template/login_my_products.html', {'m': m, 'profile': p})
+    n = Products_Leasing.objects.filter(leaser=p)
+    return render(request, 'my template/login_my_products.html', {'m': m, 'profile': p, 'n': n})
 
 @login_required
 def my_profile(request):
     u = User.objects.get(username=request.user)
+    if u.is_superuser:
+        return render(request, 'my template/admin_profile.html',{ 'u': u})
     profile = Profile.objects.get(user=request.user)
     return render(request, 'my template/login_profile.html', {'profile': profile, 'u': u})
 
@@ -254,15 +257,15 @@ def login_dashboard(request):
     cn = commonNotification.objects.all()
     cn_count = commonNotification.objects.all().count()
 
-    n = Notification.objects.filter(product__seller__user = request.user)
-    n_count = n.count()
+    n = reversed(Notification.objects.filter(product__seller__user = request.user))
+    n_count = Notification.objects.filter(product__seller__user = request.user).count()
 
-    l = Leasing_Notification.objects.filter(product__leaser__user = request.user)
-    l_c = l.count()
+    l = reversed(Leasing_Notification.objects.filter(product__leaser__user = request.user))
+    l_c = Leasing_Notification.objects.filter(product__leaser__user = request.user).count()
 
     #Notification.seller.Products_Selling.Seller.user.username
 
-    return render(request, 'my template/login_dashboard.html', {'profile': profile, 'cn': cn, 'cn_count': cn_count, 'n': n, 'n_count': n_count, 'l_c': l_c})
+    return render(request, 'my template/login_dashboard.html', {'profile': profile, 'cn': cn, 'cn_count': cn_count, 'n': n, 'n_count': n_count, 'l_c': l_c, 'l': l})
 
 def admin_invoices_show(request):
     order = Orders_Buying.objects.all()
@@ -335,3 +338,38 @@ def admin_delete_request(request,rid):
     r = Request_table.objects.get(pk=rid)
     r.delete()
     return redirect('admin-requests-show')
+
+def admin_profile(request):
+    u = User.objects.get(username=request.user)
+    profile = Profile.objects.get(user=request.user)
+    return render(request, 'my template/admin_profile.html', {'profile': profile, 'u': u})
+
+def admin_edit_profile(request):
+    profile = Profile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+
+        if p_form.is_valid():
+            p_form.save()
+            messages.success(request, f'Your account has been updated successfully!')
+            return redirect('logout')
+        profile = Profile.objects.get(user=request.user)
+        p_form = ProfileUpdateForm(instance=profile)
+    else:
+        p_form = ProfileUpdateForm(instance=profile)
+        u = User.objects.get(username=request.user)
+        profile = Profile.objects.get(user=request.user)
+        return render(request, 'my template/admin_edit_profile.html', {'p_form': p_form, 'profile': profile, 'u': u})
+
+def Send_Invoice(request,oid):
+    mail_subject = 'Your Order Invoice.'
+    message = render_to_string('buyer/order_email.html')
+    to_email = request.user.email
+    email = EmailMessage(
+        mail_subject, message, to=[to_email]
+    )
+    email.attach_file(MEDIA_ROOT + '/orders/' + str(oid) + ".pdf")
+    email.send()
+    print('email sent!!!!!')
+    return redirect('view-invoice-select')

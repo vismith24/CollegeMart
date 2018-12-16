@@ -1,68 +1,102 @@
-{% extends 'my template/demo_base.html'%}
+{% extends 'buyer/base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
-    {% block in_style %}
+<head>
+    {% block ascript %}
     <style>
-        .col-lg-12{
-            color:darkslategrey;
-        }
+    body{
+        background-color:whitesmoke;
+        background-repeat: no-repeat;
+        background-size:100% 100%;
+        background-attachment:fixed;
+    }
 
-        input.transparent-input, textarea.transparent-input, select.transparent-input, option.transparent-input {
-            background-color: #00000014;
-            color: darkslategrey;
-        }
+    #id_description,#id_description1,#id_description2{
+        height:10em;
+
+    }
+    .button {
+      background-color: rgba(251, 183, 16, 0.96);
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      text-align: center;
+      font-size: 16px;
+      margin: 4px 2px;
+      opacity: 1;
+      transition: 0.3s;
+    }
+
+    .button:hover {opacity: 0.6;box-shadow:3px 5px 7px #888888}
+
+    button {
+      background-color: rgba(251, 183, 16, 0.96);
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      text-align: center;
+      font-size: 16px;
+      margin: 4px 2px;
+      opacity: 1;
+      transition: 0.3s;
+    }
+
+    button:hover {opacity: 0.6;box-shadow:3px 5px 7px #888888}
 
     </style>
-    {% endblock %}
-    {% block script %}
+
     <script type="text/javascript">
+
         $(function () {
             $('#id_pname2').addClass('form-control mb-4 transparent-input').attr("placeholder", "Product name");
             $("#id_description2").addClass("form-control mb-4 transparent-input").attr("placeholder", "Describe the product");
         });
+
     </script>
     {% endblock %}
-{% block table %}
 
-<div class="content" id="salead">
-            <div class="animated fadeIn">
-                <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header" style="background-color: #fbb710; color: white">
-                                <strong>Request Product</strong> Form
-                            </div>
-                
-                            <div class="card-body card-block">
-                                <form action="{% url 'seller:request' %}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                    {% csrf_token %}
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product Name :</label></div>
-                                        <div class="col-12 col-md-9">
-                                            {{form7.pname2}}
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description :</label></div>
-                                        <div class="col-12 col-md-9">
-                                                {{ form7.description2 }}
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <button type="submit" class="btn btn-outline-secondary">
-                                            Submit
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-
+</head>
+{% block content %}
+<body onload="reload()">
+<div onload="reload()">
+    <div id="salead"
+     style="box-shadow:5px 10px 15px #888;width: 700px;margin-left: 30%;margin-top:2%; background-color:white;border-color: white;border-width: 1.5px;">
+    <div  style="padding-left: 10%;padding-right: 10%;padding-bottom:7%;background-color: white;padding-top: 5%;margin-top: 17%;">
+        <form action="{% url 'seller:request' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-12 display-3 " style="color: darkslategrey;">
+                        POST REQUEST
+                        </div>
                     </div>
-                </div>
-        </div>
-    </div>{% endblock %}
-{% block finscript%}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            Product name:
+                            {{form7.pname2}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            DESCRIPTION:
+                            {{form7.description2}}
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                             <input type="submit" value="Request for an item" class="button" style="width: 100%;">
+
+                        </div>
+                    </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
 <script>
     function reload(){
     $('#page').fadeIn(500)
 }
 </script>
-{% endblock %}
+</body>
+{% endblock content %}

@@ -1,0 +1,182 @@
+{% extends 'buyer/base.html' %}
+{% load crispy_forms_tags %}
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+
+
+        .btn:hover {
+            opacity: 0.6;
+            box-shadow: 3px 6px 8px #888888;
+        }
+    </style>
+    {% block ascript %}
+    <script type="text/javascript">
+
+        $(function () {
+            $('#id_pname').addClass('form-control mb-4 transparent-input').attr("placeholder", "Product name");
+            $("#id_category").addClass("form-control mb-4 transparent-input");
+            $('#id_image').addClass('form-control-file transparent-input');
+            $("#id_description").addClass("form-control mb-4 transparent-input").attr("placeholder", "Describe the product");
+            $('#id_price').addClass('form-control mb-4 transparent-input').attr("placeholder", "Price of the product");
+            $('#id_leasing_period').addClass('form-control mb-4 transparent-input').attr("placeholder", "leasing period");
+            $('#id_pname1').addClass('form-control mb-4 transparent-input').attr("placeholder", "Product name");
+            $("#id_category1").addClass("form-control mb-4 transparent-input");
+            $('#id_image1').addClass('form-control-file transparent-input');
+            $("#id_description1").addClass("form-control mb-4 transparent-input").attr("placeholder", "Describe the product");
+            $("#id_price1").addClass("form-control mb-4 transparent-input").attr("placeholder", "Price of the product");
+
+        });
+
+    </script>
+    {% endblock %}
+</head>
+{% block content %}
+<div class="container" style="top:50px; width:100px;">
+</div>
+<div class="container"  style="background-color: white;box-shadow:10px 10px 15px #888888; width: 500px;margin-right: 30%; margin-top: 13.5%;margin-bottom:16%">
+      <h2 style="font-family: helveticaneuemedium;text-transform: uppercase;color: darkslategrey;">Post Ad For Sale/Lease</h2>
+        <div class="content" id="salead">
+            <div class="animated fadeIn">
+                <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header" style="background-color: #fbb710; color: white">
+                                <strong>Add Product Selling</strong> Form
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-12 col-md-9">
+                                        <button type="submit" class="btn btn-outline-secondary" onclick="lease()">
+                                            Leasing Ad
+                                        </button>
+                                </div>
+                                
+                            </div>
+                            <div class="card-body card-block">
+                                <form action="{% url 'seller:saleform.home' %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product Name :</label></div>
+                                        <div class="col-12 col-md-9">
+                                            {{form3.pname}}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category :</label></div>
+                                        <div class="col-12 col-md-9">
+                                            {{form3.category}}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Amount :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form3.price }}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">Photo :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form3.image }}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form3.description }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+    <button type="submit" class="btn" style="border-radius: 0;border-color:#fbb710;background-color: #fbb710;color:white;">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+<div class="content" id="leasead">
+            <div class="animated fadeIn">
+                <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header" style="background-color: #fbb710; color: white">
+                                <strong>Add Product Leasing</strong> Form
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-12 col-md-9">
+                                        <button type="submit" class="btn btn-outline-secondary" onclick="sale()">
+                                            Selling Ad
+                                        </button>
+                                </div>
+                            </div>
+                            <div class="card-body card-block">
+                                <form action="{% url 'seller:saleform.home' %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product Name :</label></div>
+                                        <div class="col-12 col-md-9">
+                                            {{form5.pname1}}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category :</label></div>
+                                        <div class="col-12 col-md-9">
+                                            {{form5.category1}}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Leasing Period :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form5.leasing_period }}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Amount :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form5.price1 }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">Photo :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form5.image1 }}
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description :</label></div>
+                                        <div class="col-12 col-md-9">
+                                                {{ form5.description1 }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+    <button type="submit" class="btn" style="border-radius: 0;border-color:#fbb710;background-color: #fbb710;color:white;">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script>
+function lease(){
+    $('#salead').fadeOut(500);
+    $('#leasead').delay(500).fadeIn(500);
+}
+function sale(){
+    $('#leasead').fadeOut(500);
+    $('#salead').delay(500).fadeIn(500);
+}
+function reload(){
+    $('#salead').fadeIn(500)
+    $('#leasead').fadeOut(500)
+}
+</script>
+{% endblock content %}

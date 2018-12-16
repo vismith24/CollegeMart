@@ -31,11 +31,12 @@
                             <div id="product_details_slider" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <a class="gallery_img" href="{% static 'img/product-img/pro-big-1.jpg' %}">
                                             {% if rec == 0 %}
-                                            <img class="d-block w-100" src="{{ product.image.url }}" alt="First slide" style="height:700px;">
+                                                <a class="gallery_img" href="{{ product.image.url }}">
+                                                <img class="d-block w-100" src="{{ product.image.url }}" alt="" style="height:700px;">
                                             {% else %}
-                                            <img class="d-block w-100" src="{{ product.image1.url }}" alt="First slide">
+                                                <a class="gallery_img" href="{{ product.image1.url }}">
+                                                <img class="d-block w-100" src="{{ product.image1.url }}" alt="first slide" style="height:700px;">
                                             {% endif %}
                                         </a>
                                     </div>
@@ -102,9 +103,6 @@
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                     </div>
-                                    <div class="review">
-                                        <a href="#">Write A Review</a>
-                                    </div>
                                 </div>
                                 <!-- Avaiable -->
                                 <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
@@ -112,7 +110,7 @@
 
                             <div class="short_overview my-5">
                                 <p>{{ product.description1 }}</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?</p>
+                                <p>Buy this product from our website to get the best user experience. You can get amazing deals here.</p>
                             </div>
 
                             <!-- Add to Cart Form -->
@@ -125,7 +123,9 @@
                                         <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
                                         <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
+                                    <div hidden>
                                     {{ cart_product_form|crispy }}
+                                    </div>
                                 </div>
                                 <button type="submit" name="addtocart" value="5" class="btn amado-btn">Add to cart</button>
                             </form>
